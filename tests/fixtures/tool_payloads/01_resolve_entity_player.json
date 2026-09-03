@@ -1,0 +1,86 @@
+{
+  "columns": [
+    "player_id",
+    "name",
+    "matches",
+    "first_match",
+    "last_match",
+    "teams"
+  ],
+  "rows": [
+    {
+      "player_id": "ba607b88",
+      "name": "V Kohli",
+      "matches": 389,
+      "first_match": "2008-04-18",
+      "last_match": "2026-05-31",
+      "teams": [
+        "Royal Challengers Bengaluru",
+        "Royal Challengers Bangalore",
+        "India"
+      ]
+    },
+    {
+      "player_id": "eb9082b2",
+      "name": "A Kohli",
+      "matches": 36,
+      "first_match": "2020-08-12",
+      "last_match": "2026-07-12",
+      "teams": [
+        "Germany"
+      ]
+    },
+    {
+      "player_id": "40caa465",
+      "name": "T Kohli",
+      "matches": 3,
+      "first_match": "2008-04-19",
+      "last_match": "2009-04-21",
+      "teams": [
+        "Rajasthan Royals",
+        "Kings XI Punjab"
+      ]
+    }
+  ],
+  "row_count_total": 3,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "matches counts only matches inside this warehouse's coverage window, so it is not a career appearance total"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "da5b9034d4f2",
+  "cricinfo_links": [
+    {
+      "player_id": "eb9082b2",
+      "name": "A Kohli",
+      "url": "https://www.espncricinfo.com/ci/content/player/1190585.html"
+    },
+    {
+      "player_id": "40caa465",
+      "name": "T Kohli",
+      "url": "https://www.espncricinfo.com/ci/content/player/331855.html"
+    },
+    {
+      "player_id": "ba607b88",
+      "name": "V Kohli",
+      "url": "https://www.espncricinfo.com/ci/content/player/253802.html"
+    }
+  ],
+  "relaxation_hints": []
+}

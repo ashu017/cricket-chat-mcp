@@ -1,0 +1,69 @@
+{
+  "columns": [
+    "runs",
+    "balls_faced",
+    "fours",
+    "sixes",
+    "dots",
+    "innings",
+    "matches",
+    "dismissals",
+    "average",
+    "strike_rate",
+    "boundary_pct",
+    "dot_pct",
+    "balls_per_boundary"
+  ],
+  "rows": [],
+  "row_count_total": 0,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "runs": "Runs off the bat only. Byes, leg-byes, wides and no-ball penalties are the team's, not the batter's.",
+      "balls_faced": "Balls faced excludes wides only. A no-ball IS a ball faced, and so is a ball from which byes or leg-byes were taken.",
+      "fours": "Fours that reached the boundary. All-run fours and overthrows are excluded via Cricsheet's non_boundary flag.",
+      "sixes": "Sixes that reached the boundary, with the same non_boundary exclusion.",
+      "innings": "Distinct innings, counted as match plus innings number.",
+      "matches": "Distinct matches.",
+      "dismissals": "Times out, counted from the wickets table. Retired hurt and retired not out are NOT dismissals and do not consume an average.",
+      "average": "Runs off the bat divided by dismissals. Undefined (null), not zero, for a batter who has never been dismissed.",
+      "strike_rate": "Runs per 100 balls faced.",
+      "boundary_pct": "Percentage of balls faced that went for four or six.",
+      "dot_pct": "Percentage of balls faced off which the batter scored nothing; a ball that yielded only byes is still a dot for the batter.",
+      "balls_per_boundary": "Balls faced per boundary hit."
+    },
+    "phase_source": null,
+    "excluded": [
+      "super-over innings"
+    ],
+    "notes": [
+      "dismissals are attributed to the batter who was out, not the striker, so run outs at the non-striker's end count against the right player"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "404d63402145",
+  "cricinfo_links": [
+    {
+      "player_id": "99b75528",
+      "name": "JC Buttler",
+      "url": "https://www.espncricinfo.com/ci/content/player/308967.html"
+    }
+  ],
+  "relaxation_hints": [
+    "dropping the filter `date_from` would match 19 deliveries",
+    "dropping the filter `venue_canonical` would match 33 deliveries",
+    "dropping the filter `phase` would match 56 deliveries",
+    "dropping the filter `batter_ids` would match 450 deliveries"
+  ]
+}

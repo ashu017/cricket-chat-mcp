@@ -1,0 +1,20 @@
+{
+  "error": {
+    "code": "BAD_ENUM_VALUE",
+    "tool": "get_scorecard",
+    "message": "card='scorecard' is not one of the accepted values.",
+    "field": "card",
+    "received": "scorecard",
+    "allowed": [
+      "innings",
+      "batting",
+      "bowling"
+    ],
+    "did_you_mean": [],
+    "fix_example": {
+      "card": "innings"
+    },
+    "attempt": 1,
+    "retryable": true
+  }
+}

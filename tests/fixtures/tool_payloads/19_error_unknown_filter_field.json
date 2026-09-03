@@ -1,0 +1,45 @@
+{
+  "error": {
+    "code": "UNKNOWN_FILTER_FIELD",
+    "tool": "query_batting_aggregate",
+    "message": "bowling_style is not a filter this tool accepts.",
+    "field": "bowling_style",
+    "received": "spin",
+    "allowed": [
+      "batter_ids",
+      "batting_position",
+      "batting_team",
+      "bowler_ids",
+      "bowling_team",
+      "competition",
+      "date_from",
+      "date_to",
+      "faced_bowling_arm",
+      "faced_bowling_type",
+      "format",
+      "gender",
+      "host_country",
+      "include_super_over",
+      "innings_no",
+      "is_chase",
+      "over_from",
+      "over_to",
+      "own_bowling_arm",
+      "own_bowling_type",
+      "phase",
+      "seasons",
+      "subject_team",
+      "subject_team_result",
+      "subject_team_won_toss",
+      "venue_canonical"
+    ],
+    "did_you_mean": [
+      "bowling_team",
+      "own_bowling_type",
+      "faced_bowling_type"
+    ],
+    "fix_example": null,
+    "attempt": 1,
+    "retryable": true
+  }
+}

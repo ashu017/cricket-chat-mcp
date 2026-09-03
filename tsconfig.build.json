@@ -1,0 +1,6 @@
+{
+  // Emit only. Tests are excluded because the published tarball ships `dist/` and test code
+  // there is dead weight that also drags `vitest` types into the declarations.
+  "extends": "./tsconfig.json",
+  "exclude": ["**/*.test.ts", "src/tools/testing.ts"]
+}

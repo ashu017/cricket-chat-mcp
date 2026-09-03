@@ -1,0 +1,16 @@
+{
+  "error": {
+    "code": "NEEDS_ENTITY_RESOLUTION",
+    "tool": "get_career_reference",
+    "message": "give at least one of player_ids, player_name or format; this table is a hand-curated reference, not something to list in full.",
+    "field": null,
+    "received": null,
+    "allowed": [],
+    "did_you_mean": [],
+    "fix_example": {
+      "player_name": "Tendulkar"
+    },
+    "attempt": 1,
+    "retryable": true
+  }
+}

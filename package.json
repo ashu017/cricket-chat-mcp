@@ -1,0 +1,59 @@
+{
+  "name": "cricket-chat-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for ball-by-ball cricket analytics: eight typed tools over a bundled DuckDB warehouse built from Cricsheet data.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cricket",
+    "analytics",
+    "duckdb",
+    "cricsheet"
+  ],
+  "license": "MIT",
+  "author": "ashu017 (https://github.com/ashu017)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashu017/cricket-chat-mcp.git"
+  },
+  "homepage": "https://github.com/ashu017/cricket-chat-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/ashu017/cricket-chat-mcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "cricket-chat-mcp": "dist/bin.js"
+  },
+  "exports": {
+    ".": "./dist/tools/index.js",
+    "./tools": "./dist/tools/index.js",
+    "./contracts": "./dist/contracts/index.js"
+  },
+  "files": [
+    "dist",
+    "data/cricket.duckdb"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "fmt": "biome check --write .",
+    "start": "node dist/bin.js",
+    "prepublishOnly": "npm run lint && npm run build && npm test"
+  },
+  "dependencies": {
+    "@duckdb/node-api": "1.5.5-r.4",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.14",
+    "@types/node": "^22.14.0",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

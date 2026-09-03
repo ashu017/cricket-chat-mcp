@@ -1,0 +1,25 @@
+{
+  "error": {
+    "code": "ORDER_BY_REQUIRED",
+    "tool": "query_batting_aggregate",
+    "message": "order_by is required when group_by is set: an unordered group_by=player returns thousands of rows in arbitrary order.",
+    "field": "order_by",
+    "received": {
+      "group_by": [
+        "player"
+      ],
+      "limit": 20
+    },
+    "allowed": [],
+    "did_you_mean": [],
+    "fix_example": {
+      "group_by": [
+        "player"
+      ],
+      "order_by": "runs",
+      "order_dir": "desc"
+    },
+    "attempt": 1,
+    "retryable": true
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "columns": [
+    "innings_no",
+    "batting_team",
+    "bowling_team",
+    "total_runs",
+    "total_wickets",
+    "scheduled_overs",
+    "target_runs",
+    "is_chase",
+    "is_super_over",
+    "is_forfeited",
+    "is_declared",
+    "penalty_runs_pre",
+    "penalty_runs_post"
+  ],
+  "rows": [
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "bowling_team": "South Africa",
+      "total_runs": 176,
+      "total_wickets": 7,
+      "scheduled_overs": 20,
+      "target_runs": null,
+      "is_chase": false,
+      "is_super_over": false,
+      "is_forfeited": false,
+      "is_declared": false,
+      "penalty_runs_pre": 0,
+      "penalty_runs_post": 0
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "bowling_team": "India",
+      "total_runs": 169,
+      "total_wickets": 8,
+      "scheduled_overs": 20,
+      "target_runs": 177,
+      "is_chase": true,
+      "is_super_over": false,
+      "is_forfeited": false,
+      "is_declared": false,
+      "penalty_runs_pre": 0,
+      "penalty_runs_post": 0
+    }
+  ],
+  "row_count_total": 2,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 1,
+    "earliest_date": "2024-06-29",
+    "latest_date": "2024-06-29",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "IT20 at Kensington Oval, Bridgetown on 2024-06-29: India won by 7 runs",
+      "super-over innings appear here with is_super_over=true; they are excluded from every career statistic",
+      "this innings total includes penalty runs, which belong to the team and to no batter, so the batting card will not add up to it"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "40327dd94ff7",
+  "cricinfo_links": [],
+  "relaxation_hints": []
+}

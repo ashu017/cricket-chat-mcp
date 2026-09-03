@@ -1,0 +1,373 @@
+{
+  "columns": [
+    "innings_no",
+    "batting_team",
+    "batting_position",
+    "batter_id",
+    "batter",
+    "runs",
+    "balls_faced",
+    "fours",
+    "sixes",
+    "dots",
+    "dismissal"
+  ],
+  "rows": [
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 1,
+      "batter_id": "740742ef",
+      "batter": "RG Sharma",
+      "runs": 9,
+      "balls_faced": 5,
+      "fours": 2,
+      "sixes": 0,
+      "dots": 2,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 2,
+      "batter_id": "ba607b88",
+      "batter": "V Kohli",
+      "runs": 76,
+      "balls_faced": 59,
+      "fours": 6,
+      "sixes": 2,
+      "dots": 17,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 3,
+      "batter_id": "919a3be2",
+      "batter": "RR Pant",
+      "runs": 0,
+      "balls_faced": 2,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 2,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 4,
+      "batter_id": "271f83cd",
+      "batter": "SA Yadav",
+      "runs": 3,
+      "balls_faced": 4,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 2,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 5,
+      "batter_id": "2e171977",
+      "batter": "AR Patel",
+      "runs": 47,
+      "balls_faced": 31,
+      "fours": 1,
+      "sixes": 4,
+      "dots": 8,
+      "dismissal": "run out"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 6,
+      "batter_id": "a4e37e47",
+      "batter": "S Dube",
+      "runs": 27,
+      "balls_faced": 16,
+      "fours": 3,
+      "sixes": 1,
+      "dots": 3,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 7,
+      "batter_id": "dbe50b21",
+      "batter": "HH Pandya",
+      "runs": 5,
+      "balls_faced": 2,
+      "fours": 1,
+      "sixes": 0,
+      "dots": 0,
+      "dismissal": "not out"
+    },
+    {
+      "innings_no": 1,
+      "batting_team": "India",
+      "batting_position": 8,
+      "batter_id": "fe93fd9d",
+      "batter": "RA Jadeja",
+      "runs": 2,
+      "balls_faced": 2,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 1,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 1,
+      "batter_id": "b8cc58c9",
+      "batter": "RR Hendricks",
+      "runs": 4,
+      "balls_faced": 5,
+      "fours": 1,
+      "sixes": 0,
+      "dots": 4,
+      "dismissal": "bowled"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 2,
+      "batter_id": "372455c4",
+      "batter": "Q de Kock",
+      "runs": 39,
+      "balls_faced": 31,
+      "fours": 4,
+      "sixes": 1,
+      "dots": 11,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 3,
+      "batter_id": "6a26221c",
+      "batter": "AK Markram",
+      "runs": 4,
+      "balls_faced": 5,
+      "fours": 1,
+      "sixes": 0,
+      "dots": 4,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 4,
+      "batter_id": "85b3fab2",
+      "batter": "T Stubbs",
+      "runs": 31,
+      "balls_faced": 21,
+      "fours": 3,
+      "sixes": 1,
+      "dots": 6,
+      "dismissal": "bowled"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 5,
+      "batter_id": "235c2bb6",
+      "batter": "H Klaasen",
+      "runs": 52,
+      "balls_faced": 27,
+      "fours": 2,
+      "sixes": 5,
+      "dots": 9,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 6,
+      "batter_id": "d67d5f00",
+      "batter": "DA Miller",
+      "runs": 21,
+      "balls_faced": 17,
+      "fours": 1,
+      "sixes": 1,
+      "dots": 6,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 7,
+      "batter_id": "81c36ee9",
+      "batter": "M Jansen",
+      "runs": 2,
+      "balls_faced": 4,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 2,
+      "dismissal": "bowled"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 8,
+      "batter_id": "0b60eb09",
+      "batter": "KA Maharaj",
+      "runs": 2,
+      "balls_faced": 7,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 5,
+      "dismissal": "not out"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 9,
+      "batter_id": "e62dd25d",
+      "batter": "K Rabada",
+      "runs": 4,
+      "balls_faced": 3,
+      "fours": 1,
+      "sixes": 0,
+      "dots": 2,
+      "dismissal": "caught"
+    },
+    {
+      "innings_no": 2,
+      "batting_team": "South Africa",
+      "batting_position": 10,
+      "batter_id": "acdc62f5",
+      "batter": "A Nortje",
+      "runs": 1,
+      "balls_faced": 1,
+      "fours": 0,
+      "sixes": 0,
+      "dots": 0,
+      "dismissal": "not out"
+    }
+  ],
+  "row_count_total": 18,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 1,
+    "earliest_date": "2024-06-29",
+    "latest_date": "2024-06-29",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "runs": "Runs off the bat only. Byes, leg-byes, wides and no-ball penalties are the team's, not the batter's.",
+      "balls_faced": "Balls faced excludes wides only. A no-ball IS a ball faced, and so is a ball from which byes or leg-byes were taken.",
+      "fours": "Fours that reached the boundary. All-run fours and overthrows are excluded via Cricsheet's non_boundary flag.",
+      "sixes": "Sixes that reached the boundary, with the same non_boundary exclusion."
+    },
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "IT20 at Kensington Oval, Bridgetown on 2024-06-29: India won by 7 runs",
+      "super-over innings appear here with is_super_over=true; they are excluded from every career statistic"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "e1010c7573f9",
+  "cricinfo_links": [
+    {
+      "player_id": "6a26221c",
+      "name": "AK Markram",
+      "url": "https://www.espncricinfo.com/ci/content/player/600498.html"
+    },
+    {
+      "player_id": "acdc62f5",
+      "name": "A Nortje",
+      "url": "https://www.espncricinfo.com/ci/content/player/481979.html"
+    },
+    {
+      "player_id": "2e171977",
+      "name": "AR Patel",
+      "url": "https://www.espncricinfo.com/ci/content/player/554691.html"
+    },
+    {
+      "player_id": "d67d5f00",
+      "name": "DA Miller",
+      "url": "https://www.espncricinfo.com/ci/content/player/321777.html"
+    },
+    {
+      "player_id": "dbe50b21",
+      "name": "HH Pandya",
+      "url": "https://www.espncricinfo.com/ci/content/player/625371.html"
+    },
+    {
+      "player_id": "235c2bb6",
+      "name": "H Klaasen",
+      "url": "https://www.espncricinfo.com/ci/content/player/436757.html"
+    },
+    {
+      "player_id": "0b60eb09",
+      "name": "KA Maharaj",
+      "url": "https://www.espncricinfo.com/ci/content/player/267724.html"
+    },
+    {
+      "player_id": "e62dd25d",
+      "name": "K Rabada",
+      "url": "https://www.espncricinfo.com/ci/content/player/550215.html"
+    },
+    {
+      "player_id": "81c36ee9",
+      "name": "M Jansen",
+      "url": "https://www.espncricinfo.com/ci/content/player/696401.html"
+    },
+    {
+      "player_id": "372455c4",
+      "name": "Q de Kock",
+      "url": "https://www.espncricinfo.com/ci/content/player/379143.html"
+    },
+    {
+      "player_id": "fe93fd9d",
+      "name": "RA Jadeja",
+      "url": "https://www.espncricinfo.com/ci/content/player/234675.html"
+    },
+    {
+      "player_id": "740742ef",
+      "name": "RG Sharma",
+      "url": "https://www.espncricinfo.com/ci/content/player/34102.html"
+    },
+    {
+      "player_id": "b8cc58c9",
+      "name": "RR Hendricks",
+      "url": "https://www.espncricinfo.com/ci/content/player/269280.html"
+    },
+    {
+      "player_id": "919a3be2",
+      "name": "RR Pant",
+      "url": "https://www.espncricinfo.com/ci/content/player/931581.html"
+    },
+    {
+      "player_id": "271f83cd",
+      "name": "SA Yadav",
+      "url": "https://www.espncricinfo.com/ci/content/player/446507.html"
+    },
+    {
+      "player_id": "a4e37e47",
+      "name": "S Dube",
+      "url": "https://www.espncricinfo.com/ci/content/player/714451.html"
+    },
+    {
+      "player_id": "85b3fab2",
+      "name": "T Stubbs",
+      "url": "https://www.espncricinfo.com/ci/content/player/595978.html"
+    },
+    {
+      "player_id": "ba607b88",
+      "name": "V Kohli",
+      "url": "https://www.espncricinfo.com/ci/content/player/253802.html"
+    }
+  ],
+  "relaxation_hints": []
+}

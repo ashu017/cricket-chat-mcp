@@ -1,0 +1,101 @@
+{
+  "id": "zero-results",
+  "prompt": "Bumrah's economy at the Gabba since 2024",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_01",
+      "tool": "query_bowling_aggregate",
+      "label": "Scanning the Gabba, 2024–2026",
+      "shape": "tiles"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_01",
+      "tool": "query_bowling_aggregate",
+      "ok": true,
+      "ms": 96,
+      "sql_id": "q_2e5b",
+      "sql": "SELECT count(*) FILTER (WHERE d.counts_for_over) AS balls_bowled, sum(d.runs_conceded_bowler) AS runs_conceded FROM deliveries d WHERE d.bowler_id = '7c1e4d80' AND d.venue_canonical = 'Brisbane Cricket Ground' AND d.match_date >= DATE '2024-01-01' AND NOT d.is_super_over",
+      "response": {
+        "columns": [
+          "player",
+          "balls_bowled",
+          "runs_conceded",
+          "wickets",
+          "economy"
+        ],
+        "rows": [],
+        "row_count_total": 0,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 0,
+          "dataset_first_date": "2003-11-20",
+          "dataset_last_date": "2026-08-25",
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {
+            "economy": "Runs charged to the bowler per over. Byes, leg-byes and penalty runs are not charged."
+          },
+          "phase_source": null,
+          "excluded": [
+            "super-over innings"
+          ],
+          "notes": []
+        },
+        "qualification": {
+          "min_balls_faced": null,
+          "min_balls_bowled": 120,
+          "min_innings": 1,
+          "entities_considered": 0,
+          "entities_qualified": 0
+        },
+        "attribute_coverage": null,
+        "provenance": "computed",
+        "source_url": null,
+        "sql_id": "q_2e5b",
+        "cricinfo_links": [],
+        "relaxation_hints": [
+          "date_from=2024-01-01 excludes both of Bumrah's Brisbane matches (2018-12-21 and 2021-01-15) — drop it and you get 312 balls",
+          "venue_canonical='Brisbane Cricket Ground' is the narrow filter here; without it he has 4,188 balls since 2024"
+        ]
+      }
+    },
+    {
+      "type": "token",
+      "text": "Nothing to compute — Bumrah hasn't bowled at the Gabba since 2024. He has bowled "
+    },
+    {
+      "type": "token",
+      "text": "there twice, in 2018 and 2021. Drop the date filter and there are 312 balls to "
+    },
+    {
+      "type": "token",
+      "text": "work with."
+    },
+    {
+      "type": "receipt",
+      "queries": 1,
+      "ms": 96,
+      "deliveries_scanned": 0
+    },
+    {
+      "type": "done",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 742,
+        "output_tokens": 84,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": [
+        "Drop the date filter — all of Bumrah at the Gabba",
+        "Bumrah in Australia since 2024",
+        "Who has bowled most at the Gabba since 2024?"
+      ]
+    }
+  ]
+}

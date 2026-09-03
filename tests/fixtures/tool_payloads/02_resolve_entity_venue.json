@@ -1,0 +1,43 @@
+{
+  "columns": [
+    "name",
+    "city",
+    "matches",
+    "first_match",
+    "last_match"
+  ],
+  "rows": [
+    {
+      "name": "Wankhede Stadium, Mumbai",
+      "city": "Mumbai",
+      "matches": 152,
+      "first_match": "2008-04-20",
+      "last_match": "2026-05-24"
+    }
+  ],
+  "row_count_total": 1,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "matches counts only matches inside this warehouse's coverage window, so it is not a career appearance total"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "76b5fb746201",
+  "cricinfo_links": [],
+  "relaxation_hints": []
+}

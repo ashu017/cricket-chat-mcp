@@ -1,0 +1,62 @@
+{
+  "columns": [
+    "format",
+    "gender",
+    "first_date",
+    "last_date",
+    "match_count",
+    "delivery_count"
+  ],
+  "rows": [
+    {
+      "format": "IT20",
+      "gender": "female",
+      "first_date": "2009-06-18",
+      "last_date": "2026-08-23",
+      "match_count": 2118,
+      "delivery_count": 481616
+    },
+    {
+      "format": "IT20",
+      "gender": "male",
+      "first_date": "2005-02-17",
+      "last_date": "2026-08-21",
+      "match_count": 3528,
+      "delivery_count": 795382
+    },
+    {
+      "format": "T20",
+      "gender": "male",
+      "first_date": "2008-04-18",
+      "last_date": "2026-05-31",
+      "match_count": 1243,
+      "delivery_count": 295732
+    }
+  ],
+  "row_count_total": 3,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "these are the only formats and date ranges in this warehouse; a question about anything outside them cannot be answered from the ball-by-ball data and should be answered by saying so",
+      "match_count and delivery_count include super-over deliveries, which the stats tools exclude by default"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "2b5acce104df",
+  "cricinfo_links": [],
+  "relaxation_hints": []
+}

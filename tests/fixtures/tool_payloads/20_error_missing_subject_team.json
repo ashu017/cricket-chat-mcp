@@ -1,0 +1,19 @@
+{
+  "error": {
+    "code": "MISSING_SUBJECT_TEAM",
+    "tool": "query_matches",
+    "message": "subject_team_result requires subject_team: 'won' is meaningless without naming who won.",
+    "field": "input",
+    "received": {
+      "subject_team_result": "win",
+      "format": [
+        "IT20"
+      ]
+    },
+    "allowed": [],
+    "did_you_mean": [],
+    "fix_example": null,
+    "attempt": 1,
+    "retryable": true
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "id": "tendulkar-test-average",
+  "prompt": "What's Tendulkar's Test average?",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_01",
+      "tool": "get_career_reference",
+      "label": "Looking up the cited career figure",
+      "shape": "tiles"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_01",
+      "tool": "get_career_reference",
+      "ok": true,
+      "ms": 8,
+      "response": {
+        "columns": [
+          "player_id",
+          "player",
+          "format",
+          "matches",
+          "runs",
+          "average"
+        ],
+        "rows": [
+          {
+            "player_id": "9d2c81ea",
+            "player": "SR Tendulkar",
+            "format": "Test",
+            "matches": 200,
+            "runs": 15921,
+            "average": 53.78
+          }
+        ],
+        "row_count_total": 1,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 0,
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {
+            "average": "As published by the cited source. NOT computed from ball-by-ball data."
+          },
+          "phase_source": null,
+          "excluded": [],
+          "notes": [
+            "Reference totals are hand-curated and carry a source URL. They are never mixed into a computed table."
+          ]
+        },
+        "qualification": null,
+        "attribute_coverage": null,
+        "provenance": "reference",
+        "source_url": "https://www.espncricinfo.com/cricketers/sachin-tendulkar-35320",
+        "sql_id": null,
+        "cricinfo_links": [
+          {
+            "player_id": "9d2c81ea",
+            "name": "SR Tendulkar",
+            "url": "https://www.espncricinfo.com/cricketers/sachin-tendulkar-35320"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "label": "Computing the portion I have ball-by-ball",
+      "shape": "tiles"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "ok": true,
+      "ms": 173,
+      "sql_id": "q_c118",
+      "sql": "SELECT count(DISTINCT d.match_id) AS matches, sum(d.runs_batter) AS runs, count(*) FILTER (WHERE d.is_ball_faced) AS balls_faced, round(100.0 * sum(d.runs_batter) / count(*) FILTER (WHERE d.is_ball_faced), 2) AS strike_rate FROM deliveries d WHERE d.batter_id = '9d2c81ea' AND d.format = 'Test'",
+      "response": {
+        "columns": [
+          "player",
+          "matches",
+          "runs",
+          "balls_faced",
+          "dismissals",
+          "average",
+          "strike_rate"
+        ],
+        "rows": [
+          {
+            "player": "SR Tendulkar",
+            "matches": 92,
+            "runs": 6398,
+            "balls_faced": 12074,
+            "dismissals": 131,
+            "average": 48.84,
+            "strike_rate": 52.99
+          }
+        ],
+        "row_count_total": 1,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 92,
+          "earliest_date": "2003-12-04",
+          "latest_date": "2013-11-16",
+          "dataset_first_date": "2003-11-20",
+          "dataset_last_date": "2026-08-25",
+          "career_possibly_truncated": true
+        },
+        "definitions": {
+          "metrics": {
+            "average": "Runs divided by dismissals. Not-outs add runs without adding to the denominator; retired hurt and retired not out do not consume a dismissal.",
+            "strike_rate": "Runs off the bat per 100 balls faced. A no-ball is a ball faced; a wide is not."
+          },
+          "phase_source": null,
+          "excluded": [],
+          "notes": [
+            "Ball-by-ball coverage for Tests begins 2003-11-20. Tendulkar debuted in 1989, so this covers the last decade of a 24-year career."
+          ]
+        },
+        "qualification": {
+          "min_balls_faced": 60,
+          "min_balls_bowled": null,
+          "min_innings": 1,
+          "entities_considered": 1,
+          "entities_qualified": 1
+        },
+        "attribute_coverage": null,
+        "provenance": "computed",
+        "source_url": null,
+        "sql_id": "q_c118",
+        "cricinfo_links": [
+          {
+            "player_id": "9d2c81ea",
+            "name": "SR Tendulkar",
+            "url": "https://www.espncricinfo.com/cricketers/sachin-tendulkar-35320"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "token",
+      "text": "Tendulkar averaged **53.78** across 200 Tests — that figure is cited from "
+    },
+    {
+      "type": "token",
+      "text": "ESPNcricinfo, not computed here. My ball-by-ball data starts in November 2003, so "
+    },
+    {
+      "type": "token",
+      "text": "it covers 92 of those Tests: over that 2003–2013 portion he averaged 48.84 at a "
+    },
+    {
+      "type": "token",
+      "text": "strike rate of 52.99."
+    },
+    {
+      "type": "receipt",
+      "queries": 2,
+      "ms": 181,
+      "deliveries_scanned": 12074
+    },
+    {
+      "type": "done",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 1044,
+        "output_tokens": 186,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": [
+        "Split those 2003–2013 runs by bowling phase",
+        "How did he do against spin in that window?",
+        "Same for Dravid"
+      ]
+    }
+  ]
+}

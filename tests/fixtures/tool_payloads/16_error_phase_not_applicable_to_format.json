@@ -1,0 +1,19 @@
+{
+  "error": {
+    "code": "FILTER_NOT_APPLICABLE_TO_FORMAT",
+    "tool": "query_batting_aggregate",
+    "message": "phase is not defined for Test: there is no powerplay in an unlimited-overs match. Drop the phase filter or drop those formats.",
+    "field": "input",
+    "received": {
+      "format": [
+        "Test"
+      ],
+      "phase": "death"
+    },
+    "allowed": [],
+    "did_you_mean": [],
+    "fix_example": null,
+    "attempt": 1,
+    "retryable": true
+  }
+}

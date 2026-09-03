@@ -1,0 +1,35 @@
+{
+  "id": "live-score-refusal",
+  "prompt": "what's the score right now?",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "token",
+      "text": "Cricbuzz owns live — I do historical analysis, and I have no idea what's "
+    },
+    {
+      "type": "token",
+      "text": "happening on the field right now. What I *can* do is the kind of question no "
+    },
+    {
+      "type": "token",
+      "text": "scoreboard answers."
+    },
+    {
+      "type": "done",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 486,
+        "output_tokens": 54,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": [
+        "Fewest boundaries conceded in T20 death overs since 2020",
+        "Every ball Bumrah has bowled to Root",
+        "How does Rohit bat in the powerplay away from home?"
+      ]
+    }
+  ]
+}

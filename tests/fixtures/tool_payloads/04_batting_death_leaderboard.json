@@ -1,0 +1,288 @@
+{
+  "columns": [
+    "batter_id",
+    "player_name",
+    "runs",
+    "balls_faced",
+    "fours",
+    "sixes",
+    "dots",
+    "innings",
+    "matches",
+    "dismissals",
+    "average",
+    "strike_rate",
+    "boundary_pct",
+    "dot_pct",
+    "balls_per_boundary"
+  ],
+  "rows": [
+    {
+      "batter_id": "74be2916",
+      "player_name": "D Doyle-Calle",
+      "runs": 173,
+      "balls_faced": 67,
+      "fours": 7,
+      "sixes": 19,
+      "dots": 18,
+      "innings": 9,
+      "matches": 9,
+      "dismissals": 7,
+      "average": 24.71,
+      "strike_rate": 258.21,
+      "boundary_pct": 38.81,
+      "dot_pct": 26.87,
+      "balls_per_boundary": 2.58
+    },
+    {
+      "batter_id": "007113d7",
+      "player_name": "HAM Shah",
+      "runs": 237,
+      "balls_faced": 99,
+      "fours": 23,
+      "sixes": 15,
+      "dots": 20,
+      "innings": 9,
+      "matches": 9,
+      "dismissals": 8,
+      "average": 29.63,
+      "strike_rate": 239.39,
+      "boundary_pct": 38.38,
+      "dot_pct": 20.2,
+      "balls_per_boundary": 2.61
+    },
+    {
+      "batter_id": "557550a4",
+      "player_name": "Hamza Dar",
+      "runs": 272,
+      "balls_faced": 120,
+      "fours": 17,
+      "sixes": 24,
+      "dots": 35,
+      "innings": 13,
+      "matches": 13,
+      "dismissals": 7,
+      "average": 38.86,
+      "strike_rate": 226.67,
+      "boundary_pct": 34.17,
+      "dot_pct": 29.17,
+      "balls_per_boundary": 2.93
+    },
+    {
+      "batter_id": "271f83cd",
+      "player_name": "SA Yadav",
+      "runs": 616,
+      "balls_faced": 274,
+      "fours": 56,
+      "sixes": 44,
+      "dots": 66,
+      "innings": 31,
+      "matches": 31,
+      "dismissals": 18,
+      "average": 34.22,
+      "strike_rate": 224.82,
+      "boundary_pct": 36.5,
+      "dot_pct": 24.09,
+      "balls_per_boundary": 2.74
+    },
+    {
+      "batter_id": "fbb657bb",
+      "player_name": "Babar Hayat",
+      "runs": 362,
+      "balls_faced": 162,
+      "fours": 18,
+      "sixes": 36,
+      "dots": 45,
+      "innings": 21,
+      "matches": 21,
+      "dismissals": 13,
+      "average": 27.85,
+      "strike_rate": 223.46,
+      "boundary_pct": 33.33,
+      "dot_pct": 27.78,
+      "balls_per_boundary": 3.0
+    },
+    {
+      "batter_id": "3d284ca3",
+      "player_name": "PD Salt",
+      "runs": 216,
+      "balls_faced": 97,
+      "fours": 12,
+      "sixes": 19,
+      "dots": 21,
+      "innings": 12,
+      "matches": 12,
+      "dismissals": 8,
+      "average": 27.0,
+      "strike_rate": 222.68,
+      "boundary_pct": 31.96,
+      "dot_pct": 21.65,
+      "balls_per_boundary": 3.13
+    },
+    {
+      "batter_id": "bb4da4d3",
+      "player_name": "D Visser",
+      "runs": 152,
+      "balls_faced": 69,
+      "fours": 16,
+      "sixes": 10,
+      "dots": 21,
+      "innings": 7,
+      "matches": 7,
+      "dismissals": 4,
+      "average": 38.0,
+      "strike_rate": 220.29,
+      "boundary_pct": 37.68,
+      "dot_pct": 30.43,
+      "balls_per_boundary": 2.65
+    },
+    {
+      "batter_id": "3c55c703",
+      "player_name": "JG Bethell",
+      "runs": 188,
+      "balls_faced": 86,
+      "fours": 5,
+      "sixes": 20,
+      "dots": 21,
+      "innings": 10,
+      "matches": 10,
+      "dismissals": 5,
+      "average": 37.6,
+      "strike_rate": 218.6,
+      "boundary_pct": 29.07,
+      "dot_pct": 24.42,
+      "balls_per_boundary": 3.44
+    },
+    {
+      "batter_id": "d300d274",
+      "player_name": "Saim Hussain",
+      "runs": 147,
+      "balls_faced": 68,
+      "fours": 13,
+      "sixes": 9,
+      "dots": 18,
+      "innings": 7,
+      "matches": 7,
+      "dismissals": 5,
+      "average": 29.4,
+      "strike_rate": 216.18,
+      "boundary_pct": 32.35,
+      "dot_pct": 26.47,
+      "balls_per_boundary": 3.09
+    },
+    {
+      "batter_id": "7a6decc8",
+      "player_name": "Luqman Butt",
+      "runs": 198,
+      "balls_faced": 93,
+      "fours": 13,
+      "sixes": 18,
+      "dots": 26,
+      "innings": 13,
+      "matches": 13,
+      "dismissals": 8,
+      "average": 24.75,
+      "strike_rate": 212.9,
+      "boundary_pct": 33.33,
+      "dot_pct": 27.96,
+      "balls_per_boundary": 3.0
+    }
+  ],
+  "row_count_total": 952,
+  "truncated": true,
+  "coverage": {
+    "matches_in_scope": 4230,
+    "earliest_date": "2020-01-07",
+    "latest_date": "2026-08-23",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "runs": "Runs off the bat only. Byes, leg-byes, wides and no-ball penalties are the team's, not the batter's.",
+      "balls_faced": "Balls faced excludes wides only. A no-ball IS a ball faced, and so is a ball from which byes or leg-byes were taken.",
+      "fours": "Fours that reached the boundary. All-run fours and overthrows are excluded via Cricsheet's non_boundary flag.",
+      "sixes": "Sixes that reached the boundary, with the same non_boundary exclusion.",
+      "innings": "Distinct innings, counted as match plus innings number.",
+      "matches": "Distinct matches.",
+      "dismissals": "Times out, counted from the wickets table. Retired hurt and retired not out are NOT dismissals and do not consume an average.",
+      "average": "Runs off the bat divided by dismissals. Undefined (null), not zero, for a batter who has never been dismissed.",
+      "strike_rate": "Runs per 100 balls faced.",
+      "boundary_pct": "Percentage of balls faced that went for four or six.",
+      "dot_pct": "Percentage of balls faced off which the batter scored nothing; a ball that yielded only byes is still a dot for the batter.",
+      "balls_per_boundary": "Balls faced per boundary hit."
+    },
+    "phase_source": "declared",
+    "excluded": [
+      "super-over innings"
+    ],
+    "notes": [
+      "dismissals are attributed to the batter who was out, not the striker, so run outs at the non-striker's end count against the right player"
+    ]
+  },
+  "qualification": {
+    "min_balls_faced": 60,
+    "min_balls_bowled": null,
+    "min_innings": 1,
+    "entities_considered": 4894,
+    "entities_qualified": 952
+  },
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "bae606f5f09c",
+  "cricinfo_links": [
+    {
+      "player_id": "fbb657bb",
+      "name": "Babar Hayat",
+      "url": "https://www.espncricinfo.com/ci/content/player/539304.html"
+    },
+    {
+      "player_id": "74be2916",
+      "name": "D Doyle-Calle",
+      "url": "https://www.espncricinfo.com/ci/content/player/1312417.html"
+    },
+    {
+      "player_id": "bb4da4d3",
+      "name": "D Visser",
+      "url": "https://www.espncricinfo.com/ci/content/player/1447217.html"
+    },
+    {
+      "player_id": "007113d7",
+      "name": "HAM Shah",
+      "url": "https://www.espncricinfo.com/ci/content/player/364327.html"
+    },
+    {
+      "player_id": "557550a4",
+      "name": "Hamza Dar",
+      "url": "https://www.espncricinfo.com/ci/content/player/1178902.html"
+    },
+    {
+      "player_id": "3c55c703",
+      "name": "JG Bethell",
+      "url": "https://www.espncricinfo.com/ci/content/player/1194959.html"
+    },
+    {
+      "player_id": "7a6decc8",
+      "name": "Luqman Butt",
+      "url": "https://www.espncricinfo.com/ci/content/player/685831.html"
+    },
+    {
+      "player_id": "3d284ca3",
+      "name": "PD Salt",
+      "url": "https://www.espncricinfo.com/ci/content/player/669365.html"
+    },
+    {
+      "player_id": "d300d274",
+      "name": "Saim Hussain",
+      "url": "https://www.espncricinfo.com/ci/content/player/1284209.html"
+    },
+    {
+      "player_id": "271f83cd",
+      "name": "SA Yadav",
+      "url": "https://www.espncricinfo.com/ci/content/player/446507.html"
+    }
+  ],
+  "relaxation_hints": []
+}

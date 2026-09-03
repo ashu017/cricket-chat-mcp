@@ -1,0 +1,16 @@
+{
+  "error": {
+    "code": "LIMIT_EXCEEDED",
+    "tool": "query_batting_aggregate",
+    "message": "limit=500 exceeds the maximum of 200. Ask a narrower question or add filters rather than requesting more rows; the answer a reader wants is in the top few.",
+    "field": "limit",
+    "received": 500,
+    "allowed": [],
+    "did_you_mean": [],
+    "fix_example": {
+      "limit": 200
+    },
+    "attempt": 1,
+    "retryable": true
+  }
+}

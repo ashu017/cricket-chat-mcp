@@ -1,0 +1,171 @@
+{
+  "id": "mid-stream-error",
+  "prompt": "boundary % by phase for Kohli",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_01",
+      "tool": "query_batting_aggregate",
+      "label": "Splitting Kohli's innings by phase against spin",
+      "shape": "chart"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_01",
+      "tool": "query_batting_aggregate",
+      "ok": false,
+      "ms": 3,
+      "error": {
+        "code": "UNKNOWN_FILTER_FIELD",
+        "tool": "query_batting_aggregate",
+        "message": "'bowling_style' is not a filter field.",
+        "field": "bowling_style",
+        "received": "leg-spin",
+        "allowed": [
+          "faced_bowling_type",
+          "faced_bowling_arm",
+          "phase",
+          "over_from",
+          "over_to",
+          "batting_position"
+        ],
+        "did_you_mean": [
+          "faced_bowling_type"
+        ],
+        "fix_example": {
+          "filters": {
+            "faced_bowling_type": "spin"
+          }
+        },
+        "attempt": 1,
+        "retryable": true
+      }
+    },
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "label": "Splitting Kohli's innings by phase",
+      "shape": "chart"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "ok": true,
+      "ms": 288,
+      "sql_id": "q_9a04",
+      "sql": "SELECT d.phase, count(*) FILTER (WHERE d.is_ball_faced) AS balls_faced, sum(d.runs_batter) AS runs, round(100.0 * count(*) FILTER (WHERE d.is_boundary) / count(*) FILTER (WHERE d.is_ball_faced), 2) AS boundary_pct FROM deliveries d WHERE d.batter_id = 'de5f0b83' AND d.format IN ('T20', 'IT20') AND d.phase IS NOT NULL AND NOT d.is_super_over GROUP BY d.phase ORDER BY boundary_pct DESC",
+      "response": {
+        "columns": [
+          "phase",
+          "balls_faced",
+          "runs",
+          "boundary_pct",
+          "strike_rate"
+        ],
+        "rows": [
+          {
+            "phase": "death",
+            "balls_faced": 1412,
+            "runs": 2018,
+            "boundary_pct": 17.42,
+            "strike_rate": 142.92
+          },
+          {
+            "phase": "powerplay",
+            "balls_faced": 2864,
+            "runs": 3401,
+            "boundary_pct": 14.87,
+            "strike_rate": 118.75
+          },
+          {
+            "phase": "middle",
+            "balls_faced": 6018,
+            "runs": 7204,
+            "boundary_pct": 11.03,
+            "strike_rate": 119.71
+          }
+        ],
+        "row_count_total": 3,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 419,
+          "earliest_date": "2008-04-18",
+          "latest_date": "2026-06-11",
+          "dataset_first_date": "2005-02-17",
+          "dataset_last_date": "2026-08-25",
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {
+            "boundary_pct": "Deliveries where 4 or 6 came off the bat AND reached the rope, over balls faced. All-run fours and overthrows carry non_boundary and are excluded.",
+            "strike_rate": "Runs off the bat per 100 balls faced. A no-ball is a ball faced; a wide is not."
+          },
+          "phase_source": "declared",
+          "excluded": [
+            "super-over innings",
+            "innings where phase could not be determined"
+          ],
+          "notes": []
+        },
+        "qualification": {
+          "min_balls_faced": 60,
+          "min_balls_bowled": null,
+          "min_innings": 1,
+          "entities_considered": 3,
+          "entities_qualified": 3
+        },
+        "attribute_coverage": null,
+        "provenance": "computed",
+        "source_url": null,
+        "sql_id": "q_9a04",
+        "cricinfo_links": [
+          {
+            "player_id": "de5f0b83",
+            "name": "V Kohli",
+            "url": "https://www.espncricinfo.com/cricketers/253802"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "token",
+      "text": "Kohli finds the rope most often at the death — 17.42% of the balls he faces in "
+    },
+    {
+      "type": "token",
+      "text": "overs 16–20 go for four or six, against 11.03% through the middle. Worth noting "
+    },
+    {
+      "type": "token",
+      "text": "that his strike rate barely separates the powerplay from the middle"
+    },
+    {
+      "type": "error",
+      "code": "MODEL_TIMEOUT",
+      "message": "The model stopped responding partway through. The numbers above are complete.",
+      "retryable": true
+    },
+    {
+      "type": "receipt",
+      "queries": 2,
+      "ms": 291,
+      "deliveries_scanned": 10294
+    },
+    {
+      "type": "done",
+      "stop_reason": "error",
+      "usage": {
+        "input_tokens": 968,
+        "output_tokens": 112,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": []
+    }
+  ]
+}

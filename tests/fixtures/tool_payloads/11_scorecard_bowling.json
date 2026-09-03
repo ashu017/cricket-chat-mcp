@@ -1,0 +1,265 @@
+{
+  "columns": [
+    "innings_no",
+    "bowling_team",
+    "bowler_id",
+    "bowler",
+    "overs",
+    "runs_conceded",
+    "wickets",
+    "dots",
+    "fours_conceded",
+    "sixes_conceded",
+    "economy"
+  ],
+  "rows": [
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "81c36ee9",
+      "bowler": "M Jansen",
+      "overs": "4.0",
+      "runs_conceded": 49,
+      "wickets": 1,
+      "dots": 4,
+      "fours_conceded": 5,
+      "sixes_conceded": 2,
+      "economy": 12.25
+    },
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "0b60eb09",
+      "bowler": "KA Maharaj",
+      "overs": "3.0",
+      "runs_conceded": 23,
+      "wickets": 2,
+      "dots": 10,
+      "fours_conceded": 3,
+      "sixes_conceded": 1,
+      "economy": 7.67
+    },
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "e62dd25d",
+      "bowler": "K Rabada",
+      "overs": "4.0",
+      "runs_conceded": 36,
+      "wickets": 1,
+      "dots": 8,
+      "fours_conceded": 2,
+      "sixes_conceded": 2,
+      "economy": 9.0
+    },
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "6a26221c",
+      "bowler": "AK Markram",
+      "overs": "2.0",
+      "runs_conceded": 16,
+      "wickets": 0,
+      "dots": 1,
+      "fours_conceded": 0,
+      "sixes_conceded": 1,
+      "economy": 8.0
+    },
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "acdc62f5",
+      "bowler": "A Nortje",
+      "overs": "4.0",
+      "runs_conceded": 26,
+      "wickets": 2,
+      "dots": 7,
+      "fours_conceded": 2,
+      "sixes_conceded": 0,
+      "economy": 6.5
+    },
+    {
+      "innings_no": 1,
+      "bowling_team": "South Africa",
+      "bowler_id": "a03bba42",
+      "bowler": "T Shamsi",
+      "overs": "3.0",
+      "runs_conceded": 26,
+      "wickets": 0,
+      "dots": 4,
+      "fours_conceded": 1,
+      "sixes_conceded": 1,
+      "economy": 8.67
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "244048f6",
+      "bowler": "Arshdeep Singh",
+      "overs": "4.0",
+      "runs_conceded": 20,
+      "wickets": 2,
+      "dots": 11,
+      "fours_conceded": 2,
+      "sixes_conceded": 0,
+      "economy": 5.0
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "462411b3",
+      "bowler": "JJ Bumrah",
+      "overs": "4.0",
+      "runs_conceded": 18,
+      "wickets": 2,
+      "dots": 13,
+      "fours_conceded": 2,
+      "sixes_conceded": 0,
+      "economy": 4.5
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "2e171977",
+      "bowler": "AR Patel",
+      "overs": "4.0",
+      "runs_conceded": 49,
+      "wickets": 1,
+      "dots": 7,
+      "fours_conceded": 5,
+      "sixes_conceded": 3,
+      "economy": 12.25
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "8d2c70ad",
+      "bowler": "Kuldeep Yadav",
+      "overs": "4.0",
+      "runs_conceded": 45,
+      "wickets": 0,
+      "dots": 6,
+      "fours_conceded": 3,
+      "sixes_conceded": 3,
+      "economy": 11.25
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "dbe50b21",
+      "bowler": "HH Pandya",
+      "overs": "3.0",
+      "runs_conceded": 20,
+      "wickets": 3,
+      "dots": 7,
+      "fours_conceded": 1,
+      "sixes_conceded": 1,
+      "economy": 6.67
+    },
+    {
+      "innings_no": 2,
+      "bowling_team": "India",
+      "bowler_id": "fe93fd9d",
+      "bowler": "RA Jadeja",
+      "overs": "1.0",
+      "runs_conceded": 12,
+      "wickets": 0,
+      "dots": 0,
+      "fours_conceded": 0,
+      "sixes_conceded": 1,
+      "economy": 12.0
+    }
+  ],
+  "row_count_total": 12,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 1,
+    "earliest_date": "2024-06-29",
+    "latest_date": "2024-06-29",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "overs": "Overs bowled, written O.B -- '4.3' is four overs and three balls, not four and a half overs.",
+      "runs_conceded": "Runs charged to the bowler: off the bat, plus wides, plus no-ball penalties. Byes and leg-byes are NOT charged to the bowler.",
+      "wickets": "Wickets credited to the bowler. Run outs, obstruction, retirements and timed out are dismissals but are not the bowler's.",
+      "economy": "Runs conceded per over, where an over is six legal balls."
+    },
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "IT20 at Kensington Oval, Bridgetown on 2024-06-29: India won by 7 runs",
+      "super-over innings appear here with is_super_over=true; they are excluded from every career statistic"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "d6fba59b3927",
+  "cricinfo_links": [
+    {
+      "player_id": "6a26221c",
+      "name": "AK Markram",
+      "url": "https://www.espncricinfo.com/ci/content/player/600498.html"
+    },
+    {
+      "player_id": "acdc62f5",
+      "name": "A Nortje",
+      "url": "https://www.espncricinfo.com/ci/content/player/481979.html"
+    },
+    {
+      "player_id": "2e171977",
+      "name": "AR Patel",
+      "url": "https://www.espncricinfo.com/ci/content/player/554691.html"
+    },
+    {
+      "player_id": "244048f6",
+      "name": "Arshdeep Singh",
+      "url": "https://www.espncricinfo.com/ci/content/player/1125976.html"
+    },
+    {
+      "player_id": "dbe50b21",
+      "name": "HH Pandya",
+      "url": "https://www.espncricinfo.com/ci/content/player/625371.html"
+    },
+    {
+      "player_id": "462411b3",
+      "name": "JJ Bumrah",
+      "url": "https://www.espncricinfo.com/ci/content/player/625383.html"
+    },
+    {
+      "player_id": "0b60eb09",
+      "name": "KA Maharaj",
+      "url": "https://www.espncricinfo.com/ci/content/player/267724.html"
+    },
+    {
+      "player_id": "e62dd25d",
+      "name": "K Rabada",
+      "url": "https://www.espncricinfo.com/ci/content/player/550215.html"
+    },
+    {
+      "player_id": "8d2c70ad",
+      "name": "Kuldeep Yadav",
+      "url": "https://www.espncricinfo.com/ci/content/player/559235.html"
+    },
+    {
+      "player_id": "81c36ee9",
+      "name": "M Jansen",
+      "url": "https://www.espncricinfo.com/ci/content/player/696401.html"
+    },
+    {
+      "player_id": "fe93fd9d",
+      "name": "RA Jadeja",
+      "url": "https://www.espncricinfo.com/ci/content/player/234675.html"
+    },
+    {
+      "player_id": "a03bba42",
+      "name": "T Shamsi",
+      "url": "https://www.espncricinfo.com/ci/content/player/379145.html"
+    }
+  ],
+  "relaxation_hints": []
+}

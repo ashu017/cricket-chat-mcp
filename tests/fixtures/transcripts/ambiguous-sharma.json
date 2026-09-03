@@ -1,0 +1,270 @@
+{
+  "id": "ambiguous-sharma",
+  "prompt": "how does Sharma bat in the powerplay",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_01",
+      "tool": "resolve_entity",
+      "label": "Looking up Sharma",
+      "shape": "table"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_01",
+      "tool": "resolve_entity",
+      "ok": true,
+      "ms": 79,
+      "sql_id": "da5b9034d4f2",
+      "sql": "    SELECT p.player_id,\n           p.unique_name                          AS name,\n           count(DISTINCT d.match_id)::INTEGER    AS matches,\n           min(d.match_date)                      AS first_match,\n           max(d.match_date)                      AS last_match,\n           -- The team THIS player was on, which depends on which end he was at.\n           -- `batting_team` alone would list the sides a bowler bowled *to*, and a\n           -- disambiguation column that names the opposition is worse than none.\n           list(DISTINCT CASE\n                   WHEN d.batter_id = p.player_id THEN d.batting_team\n                   ELSE d.bowling_team\n               END)[1:4]                          AS teams\n    FROM players p\n    JOIN deliveries d ON d.batter_id = p.player_id OR d.bowler_id = p.player_id\n    WHERE p.unique_name ILIKE ?\n    GROUP BY p.player_id, p.unique_name\n    ORDER BY matches DESC, name\n    LIMIT ?",
+      "response": {
+        "columns": [
+          "player_id",
+          "name",
+          "matches",
+          "first_match",
+          "last_match",
+          "teams"
+        ],
+        "rows": [
+          {
+            "player_id": "740742ef",
+            "name": "RG Sharma",
+            "matches": 421,
+            "first_match": "2007-09-20",
+            "last_match": "2026-05-24",
+            "teams": [
+              "Mumbai Indians",
+              "Deccan Chargers",
+              "India"
+            ]
+          },
+          {
+            "player_id": "f29185a1",
+            "name": "Abhishek Sharma",
+            "matches": 148,
+            "first_match": "2018-05-12",
+            "last_match": "2026-07-26",
+            "teams": [
+              "Sunrisers Hyderabad",
+              "India",
+              "Delhi Daredevils"
+            ]
+          },
+          {
+            "player_id": "ce820073",
+            "name": "Sandeep Sharma",
+            "matches": 144,
+            "first_match": "2013-05-11",
+            "last_match": "2026-05-19",
+            "teams": [
+              "Punjab Kings",
+              "India",
+              "Kings XI Punjab",
+              "Rajasthan Royals"
+            ]
+          },
+          {
+            "player_id": "201fef33",
+            "name": "DB Sharma",
+            "matches": 142,
+            "first_match": "2016-01-31",
+            "last_match": "2026-06-28",
+            "teams": [
+              "India"
+            ]
+          },
+          {
+            "player_id": "5bb1a1c4",
+            "name": "I Sharma",
+            "matches": 131,
+            "first_match": "2008-02-01",
+            "last_match": "2025-05-02",
+            "teams": [
+              "Gujarat Titans",
+              "Rising Pune Supergiants",
+              "Deccan Chargers",
+              "Delhi Capitals"
+            ]
+          },
+          {
+            "player_id": "759ac88f",
+            "name": "MM Sharma",
+            "matches": 128,
+            "first_match": "2013-04-13",
+            "last_match": "2025-05-24",
+            "teams": [
+              "India",
+              "Chennai Super Kings",
+              "Kings XI Punjab",
+              "Gujarat Titans"
+            ]
+          },
+          {
+            "player_id": "119678fd",
+            "name": "KV Sharma",
+            "matches": 89,
+            "first_match": "2009-04-22",
+            "last_match": "2025-05-21",
+            "teams": [
+              "Royal Challengers Bangalore",
+              "Mumbai Indians",
+              "Chennai Super Kings",
+              "India"
+            ]
+          },
+          {
+            "player_id": "800d2d97",
+            "name": "JM Sharma",
+            "matches": 68,
+            "first_match": "2022-04-03",
+            "last_match": "2026-05-31",
+            "teams": [
+              "India",
+              "Royal Challengers Bengaluru",
+              "Punjab Kings"
+            ]
+          },
+          {
+            "player_id": "a259c414",
+            "name": "Khushi Sharma",
+            "matches": 57,
+            "first_match": "2021-11-22",
+            "last_match": "2024-07-23",
+            "teams": [
+              "United Arab Emirates"
+            ]
+          },
+          {
+            "player_id": "5d9a1a73",
+            "name": "R Sharma",
+            "matches": 46,
+            "first_match": "2010-03-21",
+            "last_match": "2014-05-03",
+            "teams": [
+              "Delhi Daredevils",
+              "Pune Warriors",
+              "Deccan Chargers",
+              "India"
+            ]
+          }
+        ],
+        "row_count_total": 10,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 0,
+          "earliest_date": null,
+          "latest_date": null,
+          "dataset_first_date": "2005-02-17",
+          "dataset_last_date": "2026-08-23",
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {},
+          "phase_source": null,
+          "excluded": [],
+          "notes": [
+            "matches counts only matches inside this warehouse's coverage window, so it is not a career appearance total"
+          ]
+        },
+        "qualification": null,
+        "attribute_coverage": null,
+        "provenance": "computed",
+        "source_url": null,
+        "sql_id": "da5b9034d4f2",
+        "cricinfo_links": [
+          {
+            "player_id": "f29185a1",
+            "name": "Abhishek Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/1070183.html"
+          },
+          {
+            "player_id": "201fef33",
+            "name": "DB Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/597811.html"
+          },
+          {
+            "player_id": "5bb1a1c4",
+            "name": "I Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/236779.html"
+          },
+          {
+            "player_id": "800d2d97",
+            "name": "JM Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/721867.html"
+          },
+          {
+            "player_id": "a259c414",
+            "name": "Khushi Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/1290387.html"
+          },
+          {
+            "player_id": "119678fd",
+            "name": "KV Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/30288.html"
+          },
+          {
+            "player_id": "759ac88f",
+            "name": "MM Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/537119.html"
+          },
+          {
+            "player_id": "740742ef",
+            "name": "RG Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/34102.html"
+          },
+          {
+            "player_id": "5d9a1a73",
+            "name": "R Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/272994.html"
+          },
+          {
+            "player_id": "ce820073",
+            "name": "Sandeep Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/438362.html"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "token",
+      "text": "Ten players called Sharma have batted or bowled in this data, and "
+    },
+    {
+      "type": "token",
+      "text": "three of them are plausible enough that I would rather ask than guess: "
+    },
+    {
+      "type": "token",
+      "text": "RG Sharma has 421 matches here, Abhishek Sharma 148, Sandeep Sharma 144. "
+    },
+    {
+      "type": "token",
+      "text": "Which one did you mean?"
+    },
+    {
+      "type": "receipt",
+      "queries": 1,
+      "ms": 79,
+      "deliveries_scanned": null
+    },
+    {
+      "type": "done",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 604,
+        "output_tokens": 62,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": [
+        "RG Sharma in the powerplay",
+        "Abhishek Sharma in the powerplay",
+        "Sandeep Sharma in the powerplay"
+      ]
+    }
+  ]
+}

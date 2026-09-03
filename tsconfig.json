@@ -1,0 +1,45 @@
+{
+  // The options are spelled out here rather than inherited from a base, because there is no
+  // parent: this package is one publishable unit, and a reader who wants to know how it is
+  // compiled should find the answer in one file.
+  //
+  // Three of these are load-bearing rather than stylistic and should not be relaxed to make
+  // a build pass:
+  //
+  //   - `exactOptionalPropertyTypes` keeps "absent" and "explicitly null" distinct. The
+  //     filter contracts depend on it: `order_by` absent is legal, `order_by: null` is not,
+  //     and without this flag those two collapse into each other.
+  //   - `noUncheckedIndexedAccess` makes `rows[0]` a `Row | undefined`. Every place that
+  //     reads the first row of a query result has to say what it does when there isn't one,
+  //     which is the difference between an empty result and a crash.
+  //   - `verbatimModuleSyntax` keeps `import type` from being emitted as a runtime import,
+  //     which matters because the emitted ESM is what `npx` executes.
+  //
+  // This config typechecks the tests too. Emit is `tsconfig.build.json`, which excludes
+  // them -- a published tarball has no business carrying test code.
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

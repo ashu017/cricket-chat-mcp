@@ -1,0 +1,38 @@
+{
+  "columns": [
+    "player_id",
+    "name",
+    "matches",
+    "first_match",
+    "last_match",
+    "teams"
+  ],
+  "rows": [],
+  "row_count_total": 0,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "matches counts only matches inside this warehouse's coverage window, so it is not a career appearance total"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "51a15c5c7d04",
+  "cricinfo_links": [],
+  "relaxation_hints": [
+    "no player matched 'Virat Kohli'; closest names: V Kohli, Vivek Kohli, Parth Kohli, T Kohli, S Kohli"
+  ]
+}

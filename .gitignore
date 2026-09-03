@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# The warehouse is 74 MB. It travels in the published npm tarball, not in git -- a repo that
+# carries it makes every clone pay for it forever, and git has no way to forget a blob once
+# it is in history. Build it with the ingest in the cricket-chat repo, or fetch a published
+# tarball and take `data/cricket.duckdb` out of it.
+data/*.duckdb
+data/*.duckdb.wal
+
+.env
+.DS_Store

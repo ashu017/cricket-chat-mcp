@@ -1,0 +1,91 @@
+{
+  "columns": [
+    "runs",
+    "balls_faced",
+    "fours",
+    "sixes",
+    "dots",
+    "innings",
+    "matches",
+    "dismissals",
+    "average",
+    "strike_rate",
+    "boundary_pct",
+    "dot_pct",
+    "balls_per_boundary"
+  ],
+  "rows": [
+    {
+      "runs": 152,
+      "balls_faced": 138,
+      "fours": 19,
+      "sixes": 1,
+      "dots": 54,
+      "innings": 20,
+      "matches": 20,
+      "dismissals": 6,
+      "average": 25.33,
+      "strike_rate": 110.14,
+      "boundary_pct": 14.49,
+      "dot_pct": 39.13,
+      "balls_per_boundary": 6.9
+    }
+  ],
+  "row_count_total": 1,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 20,
+    "earliest_date": "2016-01-31",
+    "latest_date": "2026-06-28",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "runs": "Runs off the bat only. Byes, leg-byes, wides and no-ball penalties are the team's, not the batter's.",
+      "balls_faced": "Balls faced excludes wides only. A no-ball IS a ball faced, and so is a ball from which byes or leg-byes were taken.",
+      "fours": "Fours that reached the boundary. All-run fours and overthrows are excluded via Cricsheet's non_boundary flag.",
+      "sixes": "Sixes that reached the boundary, with the same non_boundary exclusion.",
+      "innings": "Distinct innings, counted as match plus innings number.",
+      "matches": "Distinct matches.",
+      "dismissals": "Times out, counted from the wickets table. Retired hurt and retired not out are NOT dismissals and do not consume an average.",
+      "average": "Runs off the bat divided by dismissals. Undefined (null), not zero, for a batter who has never been dismissed.",
+      "strike_rate": "Runs per 100 balls faced.",
+      "boundary_pct": "Percentage of balls faced that went for four or six.",
+      "dot_pct": "Percentage of balls faced off which the batter scored nothing; a ball that yielded only byes is still a dot for the batter.",
+      "balls_per_boundary": "Balls faced per boundary hit."
+    },
+    "phase_source": null,
+    "excluded": [
+      "super-over innings"
+    ],
+    "notes": [
+      "138 balls between these two in scope; head-to-head samples are small and a rate computed over fewer than 30 balls should not be presented as a conclusion"
+    ]
+  },
+  "qualification": {
+    "min_balls_faced": 30,
+    "min_balls_bowled": null,
+    "min_innings": 1,
+    "entities_considered": 1,
+    "entities_qualified": 1
+  },
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "ca6fcad446b0",
+  "cricinfo_links": [
+    {
+      "player_id": "52d1dbc8",
+      "name": "BL Mooney",
+      "url": "https://www.espncricinfo.com/ci/content/player/381258.html"
+    },
+    {
+      "player_id": "201fef33",
+      "name": "DB Sharma",
+      "url": "https://www.espncricinfo.com/ci/content/player/597811.html"
+    }
+  ],
+  "relaxation_hints": []
+}

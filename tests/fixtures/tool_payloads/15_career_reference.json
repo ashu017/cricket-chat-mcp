@@ -1,0 +1,76 @@
+{
+  "columns": [
+    "player_id",
+    "player_name",
+    "format",
+    "matches",
+    "innings",
+    "runs",
+    "batting_average",
+    "wickets",
+    "bowling_average",
+    "source_url",
+    "as_of"
+  ],
+  "rows": [
+    {
+      "player_id": "d2c2b2d5",
+      "player_name": "SR Tendulkar",
+      "format": "ODI",
+      "matches": 463,
+      "innings": 452,
+      "runs": 18426,
+      "batting_average": 44.83,
+      "wickets": 154,
+      "bowling_average": 44.48,
+      "source_url": "https://www.espncricinfo.com/ci/content/player/35320.html",
+      "as_of": "2026-08-31"
+    },
+    {
+      "player_id": "d2c2b2d5",
+      "player_name": "SR Tendulkar",
+      "format": "Test",
+      "matches": 200,
+      "innings": 329,
+      "runs": 15921,
+      "batting_average": 53.78,
+      "wickets": 46,
+      "bowling_average": 54.17,
+      "source_url": "https://www.espncricinfo.com/ci/content/player/35320.html",
+      "as_of": "2026-08-31"
+    }
+  ],
+  "row_count_total": 2,
+  "truncated": false,
+  "coverage": {
+    "matches_in_scope": 0,
+    "earliest_date": null,
+    "latest_date": null,
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {},
+    "phase_source": null,
+    "excluded": [],
+    "notes": [
+      "hand-transcribed full-career figures from ESPNcricinfo, NOT computed from this warehouse -- quote them as the career record and cite source_url",
+      "a blank cell means the figure was not transcribed, never zero",
+      "innings means batting innings"
+    ]
+  },
+  "qualification": null,
+  "attribute_coverage": null,
+  "provenance": "reference",
+  "source_url": "https://www.espncricinfo.com/ci/content/player/35320.html",
+  "sql_id": "097eb5331935",
+  "cricinfo_links": [
+    {
+      "player_id": "d2c2b2d5",
+      "name": "SR Tendulkar",
+      "url": "https://www.espncricinfo.com/ci/content/player/35320.html"
+    }
+  ],
+  "relaxation_hints": []
+}

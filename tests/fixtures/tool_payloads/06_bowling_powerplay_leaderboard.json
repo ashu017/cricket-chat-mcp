@@ -1,0 +1,286 @@
+{
+  "columns": [
+    "bowler_id",
+    "player_name",
+    "balls_bowled",
+    "runs_conceded",
+    "wickets",
+    "dots",
+    "fours_conceded",
+    "sixes_conceded",
+    "innings",
+    "matches",
+    "economy",
+    "average",
+    "strike_rate",
+    "dot_pct",
+    "overs"
+  ],
+  "rows": [
+    {
+      "bowler_id": "97ae78b7",
+      "player_name": "Meghna Rajan",
+      "balls_bowled": 144,
+      "runs_conceded": 68,
+      "wickets": 6,
+      "dots": 104,
+      "fours_conceded": 5,
+      "sixes_conceded": 0,
+      "innings": 12,
+      "matches": 12,
+      "economy": 2.83,
+      "average": 11.33,
+      "strike_rate": 24.0,
+      "dot_pct": 72.22,
+      "overs": "24.0"
+    },
+    {
+      "bowler_id": "569bbcbb",
+      "player_name": "CM Greechan",
+      "balls_bowled": 324,
+      "runs_conceded": 161,
+      "wickets": 16,
+      "dots": 211,
+      "fours_conceded": 13,
+      "sixes_conceded": 0,
+      "innings": 22,
+      "matches": 22,
+      "economy": 2.98,
+      "average": 10.06,
+      "strike_rate": 20.25,
+      "dot_pct": 65.12,
+      "overs": "54.0"
+    },
+    {
+      "bowler_id": "c2c7e58a",
+      "player_name": "MD Botha",
+      "balls_bowled": 162,
+      "runs_conceded": 81,
+      "wickets": 12,
+      "dots": 116,
+      "fours_conceded": 8,
+      "sixes_conceded": 0,
+      "innings": 14,
+      "matches": 14,
+      "economy": 3.0,
+      "average": 6.75,
+      "strike_rate": 13.5,
+      "dot_pct": 71.6,
+      "overs": "27.0"
+    },
+    {
+      "bowler_id": "4d382b64",
+      "player_name": "Xu Qian",
+      "balls_bowled": 282,
+      "runs_conceded": 143,
+      "wickets": 10,
+      "dots": 206,
+      "fours_conceded": 15,
+      "sixes_conceded": 0,
+      "innings": 21,
+      "matches": 21,
+      "economy": 3.04,
+      "average": 14.3,
+      "strike_rate": 28.2,
+      "dot_pct": 73.05,
+      "overs": "47.0"
+    },
+    {
+      "bowler_id": "2901e489",
+      "player_name": "RD de Sousa",
+      "balls_bowled": 120,
+      "runs_conceded": 61,
+      "wickets": 3,
+      "dots": 88,
+      "fours_conceded": 7,
+      "sixes_conceded": 0,
+      "innings": 10,
+      "matches": 10,
+      "economy": 3.05,
+      "average": 20.33,
+      "strike_rate": 40.0,
+      "dot_pct": 73.33,
+      "overs": "20.0"
+    },
+    {
+      "bowler_id": "10854c82",
+      "player_name": "A Gurung",
+      "balls_bowled": 480,
+      "runs_conceded": 248,
+      "wickets": 20,
+      "dots": 333,
+      "fours_conceded": 23,
+      "sixes_conceded": 0,
+      "innings": 34,
+      "matches": 34,
+      "economy": 3.1,
+      "average": 12.4,
+      "strike_rate": 24.0,
+      "dot_pct": 69.38,
+      "overs": "80.0"
+    },
+    {
+      "bowler_id": "d9a2345a",
+      "player_name": "L Barnett",
+      "balls_bowled": 222,
+      "runs_conceded": 117,
+      "wickets": 8,
+      "dots": 145,
+      "fours_conceded": 10,
+      "sixes_conceded": 0,
+      "innings": 13,
+      "matches": 13,
+      "economy": 3.16,
+      "average": 14.63,
+      "strike_rate": 27.75,
+      "dot_pct": 65.32,
+      "overs": "37.0"
+    },
+    {
+      "bowler_id": "5e6041a4",
+      "player_name": "D Koralalage",
+      "balls_bowled": 234,
+      "runs_conceded": 127,
+      "wickets": 15,
+      "dots": 184,
+      "fours_conceded": 4,
+      "sixes_conceded": 0,
+      "innings": 19,
+      "matches": 19,
+      "economy": 3.26,
+      "average": 8.47,
+      "strike_rate": 15.6,
+      "dot_pct": 78.63,
+      "overs": "39.0"
+    },
+    {
+      "bowler_id": "52b57a65",
+      "player_name": "NMP Suwandewi",
+      "balls_bowled": 420,
+      "runs_conceded": 236,
+      "wickets": 22,
+      "dots": 308,
+      "fours_conceded": 25,
+      "sixes_conceded": 0,
+      "innings": 26,
+      "matches": 26,
+      "economy": 3.37,
+      "average": 10.73,
+      "strike_rate": 19.09,
+      "dot_pct": 73.33,
+      "overs": "70.0"
+    },
+    {
+      "bowler_id": "b6358ee8",
+      "player_name": "E Kabwere",
+      "balls_bowled": 157,
+      "runs_conceded": 90,
+      "wickets": 12,
+      "dots": 110,
+      "fours_conceded": 6,
+      "sixes_conceded": 0,
+      "innings": 10,
+      "matches": 10,
+      "economy": 3.44,
+      "average": 7.5,
+      "strike_rate": 13.08,
+      "dot_pct": 70.06,
+      "overs": "26.1"
+    }
+  ],
+  "row_count_total": 789,
+  "truncated": true,
+  "coverage": {
+    "matches_in_scope": 4287,
+    "earliest_date": "2021-01-29",
+    "latest_date": "2026-08-23",
+    "dataset_first_date": "2005-02-17",
+    "dataset_last_date": "2026-08-23",
+    "career_possibly_truncated": false
+  },
+  "definitions": {
+    "metrics": {
+      "balls_bowled": "Legal balls bowled: excludes both wides and no-balls, a different denominator from a batter's balls faced.",
+      "runs_conceded": "Runs charged to the bowler: off the bat, plus wides, plus no-ball penalties. Byes and leg-byes are NOT charged to the bowler.",
+      "wickets": "Wickets credited to the bowler. Run outs, obstruction, retirements and timed out are dismissals but are not the bowler's.",
+      "innings": "Distinct innings, counted as match plus innings number.",
+      "matches": "Distinct matches.",
+      "economy": "Runs conceded per over, where an over is six legal balls.",
+      "average": "Runs off the bat divided by dismissals. Undefined (null), not zero, for a batter who has never been dismissed.",
+      "strike_rate": "Runs per 100 balls faced.",
+      "dot_pct": "Percentage of balls faced off which the batter scored nothing; a ball that yielded only byes is still a dot for the batter.",
+      "overs": "Overs bowled, written O.B -- '4.3' is four overs and three balls, not four and a half overs."
+    },
+    "phase_source": "default",
+    "excluded": [
+      "super-over innings"
+    ],
+    "notes": [
+      "wickets are bowler-credited only: run outs are excluded, as on a scorecard"
+    ]
+  },
+  "qualification": {
+    "min_balls_faced": null,
+    "min_balls_bowled": 120,
+    "min_innings": 1,
+    "entities_considered": 3020,
+    "entities_qualified": 789
+  },
+  "attribute_coverage": null,
+  "provenance": "computed",
+  "source_url": null,
+  "sql_id": "cabe212e06d5",
+  "cricinfo_links": [
+    {
+      "player_id": "10854c82",
+      "name": "A Gurung",
+      "url": "https://www.espncricinfo.com/ci/content/player/1140101.html"
+    },
+    {
+      "player_id": "569bbcbb",
+      "name": "CM Greechan",
+      "url": "https://www.espncricinfo.com/ci/content/player/1186099.html"
+    },
+    {
+      "player_id": "5e6041a4",
+      "name": "D Koralalage",
+      "url": "https://www.espncricinfo.com/ci/content/player/1438827.html"
+    },
+    {
+      "player_id": "b6358ee8",
+      "name": "E Kabwere",
+      "url": "https://www.espncricinfo.com/ci/content/player/1488296.html"
+    },
+    {
+      "player_id": "d9a2345a",
+      "name": "L Barnett",
+      "url": "https://www.espncricinfo.com/ci/content/player/1344430.html"
+    },
+    {
+      "player_id": "c2c7e58a",
+      "name": "MD Botha",
+      "url": "https://www.espncricinfo.com/ci/content/player/1137522.html"
+    },
+    {
+      "player_id": "97ae78b7",
+      "name": "Meghna Rajan",
+      "url": "https://www.espncricinfo.com/ci/content/player/1487349.html"
+    },
+    {
+      "player_id": "52b57a65",
+      "name": "NMP Suwandewi",
+      "url": "https://www.espncricinfo.com/ci/content/player/1116786.html"
+    },
+    {
+      "player_id": "2901e489",
+      "name": "RD de Sousa",
+      "url": "https://www.espncricinfo.com/ci/content/player/1161404.html"
+    },
+    {
+      "player_id": "4d382b64",
+      "name": "Xu Qian",
+      "url": "https://www.espncricinfo.com/ci/content/player/1164390.html"
+    }
+  ],
+  "relaxation_hints": []
+}

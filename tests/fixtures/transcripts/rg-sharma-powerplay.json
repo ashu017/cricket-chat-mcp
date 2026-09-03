@@ -1,0 +1,206 @@
+{
+  "id": "rg-sharma-powerplay",
+  "prompt": "RG Sharma in the powerplay",
+  "recorded": "hand-written",
+  "events": [
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_01",
+      "tool": "resolve_entity",
+      "label": "Looking up RG Sharma",
+      "shape": "table"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_01",
+      "tool": "resolve_entity",
+      "ok": true,
+      "ms": 53,
+      "sql_id": "da5b9034d4f2",
+      "sql": "\n    SELECT p.player_id,\n           p.unique_name                          AS name,\n           count(DISTINCT d.match_id)::INTEGER    AS matches,\n           min(d.match_date)                      AS first_match,\n           max(d.match_date)                      AS last_match,\n           -- The team THIS player was on, which depends on which end he was at.\n           -- `batting_team` alone would list the sides a bowler bowled *to*, and a\n           -- disambiguation column that names the opposition is worse than none.\n           list(DISTINCT CASE\n                   WHEN d.batter_id = p.player_id THEN d.batting_team\n                   ELSE d.bowling_team\n               END)[1:4]                          AS teams\n    FROM players p\n    JOIN deliveries d ON d.batter_id = p.player_id OR d.bowler_id = p.player_id\n    WHERE p.unique_name ILIKE ?\n    GROUP BY p.player_id, p.unique_name\n    ORDER BY matches DESC, name\n    LIMIT ?\n",
+      "response": {
+        "columns": [
+          "player_id",
+          "name",
+          "matches",
+          "first_match",
+          "last_match",
+          "teams"
+        ],
+        "rows": [
+          {
+            "player_id": "740742ef",
+            "name": "RG Sharma",
+            "matches": 421,
+            "first_match": "2007-09-20",
+            "last_match": "2026-05-24",
+            "teams": [
+              "Deccan Chargers",
+              "India",
+              "Mumbai Indians"
+            ]
+          }
+        ],
+        "row_count_total": 1,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 0,
+          "dataset_first_date": "2005-02-17",
+          "dataset_last_date": "2026-08-23",
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {},
+          "excluded": [],
+          "notes": [
+            "matches counts only matches inside this warehouse's coverage window, so it is not a career appearance total"
+          ]
+        },
+        "provenance": "computed",
+        "sql_id": "da5b9034d4f2",
+        "cricinfo_links": [
+          {
+            "player_id": "740742ef",
+            "name": "RG Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/34102.html"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "tool_start",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "label": "Scanning powerplay overs, 2007-2026",
+      "shape": "tiles"
+    },
+    {
+      "type": "tool_result",
+      "tool_use_id": "tu_02",
+      "tool": "query_batting_aggregate",
+      "ok": true,
+      "ms": 24,
+      "sql_id": "4096d4ba291c",
+      "sql": "WITH base AS (\n            SELECT 1 AS _grp,\n                   sum(d.runs_batter)::INTEGER AS runs,\n                   sum(d.is_ball_faced::INT)::INTEGER AS balls_faced,\n                   sum(d.is_four::INT)::INTEGER AS fours,\n                   sum(d.is_six::INT)::INTEGER AS sixes,\n                   sum(d.is_dot_batter::INT)::INTEGER AS dots,\n                   count(DISTINCT d.match_id || ':' || d.innings_no)::INTEGER AS innings,\n                   count(DISTINCT d.match_id)::INTEGER AS matches\n            FROM deliveries d\n            \n            WHERE NOT d.is_super_over AND d.phase = ? AND d.batter_id IN (?)\n            \n        ), outs AS (\n            SELECT 1 AS _grp,\n                   count(*)::INTEGER AS dismissals\n            FROM deliveries d\n            JOIN wickets w ON w.match_id = d.match_id AND w.innings_no = d.innings_no AND w.over_number = d.over_number AND w.ball_in_over = d.ball_in_over\n            \n            WHERE NOT d.is_super_over AND d.phase = ? AND d.batter_id IN (?) AND w.counts_as_out\n            \n        ), joined AS (\n            SELECT b.*, coalesce(o.dismissals, 0)::INTEGER AS dismissals\n            FROM base b\n            LEFT JOIN outs o USING (_grp)\n        )\n        SELECT j.runs,\n               j.balls_faced,\n               j.fours,\n               j.sixes,\n               j.dots,\n               j.innings,\n               j.matches,\n               j.dismissals,\n               CASE WHEN coalesce((dismissals), 0) = 0 THEN NULL ELSE round(1.0 * (runs) / (dismissals), 2) END AS average,\n               CASE WHEN coalesce((balls_faced), 0) = 0 THEN NULL ELSE round(100.0 * (runs) / (balls_faced), 2) END AS strike_rate,\n               CASE WHEN coalesce((balls_faced), 0) = 0 THEN NULL ELSE round(100.0 * (fours + sixes) / (balls_faced), 2) END AS boundary_pct,\n               CASE WHEN coalesce((balls_faced), 0) = 0 THEN NULL ELSE round(100.0 * (dots) / (balls_faced), 2) END AS dot_pct,\n               CASE WHEN coalesce((fours + sixes), 0) = 0 THEN NULL ELSE round(1.0 * (balls_faced) / (fours + sixes), 2) END AS balls_per_boundary,\n               count(*) OVER ()::INTEGER AS _qualified,\n               (SELECT count(*) FROM base)::INTEGER AS _considered,\n               (SELECT coalesce(sum(balls_faced), 0) FROM base)::BIGINT AS _scanned\n        FROM joined j\n        \n        WHERE TRUE\n        ORDER BY runs DESC NULLS LAST\n        LIMIT ?",
+      "response": {
+        "columns": [
+          "runs",
+          "balls_faced",
+          "fours",
+          "sixes",
+          "dots",
+          "innings",
+          "matches",
+          "dismissals",
+          "average",
+          "strike_rate",
+          "boundary_pct",
+          "dot_pct",
+          "balls_per_boundary"
+        ],
+        "rows": [
+          {
+            "runs": 4703,
+            "balls_faced": 3620,
+            "fours": 520,
+            "sixes": 219,
+            "dots": 1756,
+            "innings": 321,
+            "matches": 321,
+            "dismissals": 153,
+            "average": 30.74,
+            "strike_rate": 129.92,
+            "boundary_pct": 20.41,
+            "dot_pct": 48.51,
+            "balls_per_boundary": 4.9
+          }
+        ],
+        "row_count_total": 1,
+        "truncated": false,
+        "coverage": {
+          "matches_in_scope": 321,
+          "earliest_date": "2007-09-20",
+          "latest_date": "2026-05-24",
+          "dataset_first_date": "2005-02-17",
+          "dataset_last_date": "2026-08-23",
+          "career_possibly_truncated": false
+        },
+        "definitions": {
+          "metrics": {
+            "runs": "Runs off the bat only. Byes, leg-byes, wides and no-ball penalties are the team's, not the batter's.",
+            "balls_faced": "Balls faced excludes wides only. A no-ball IS a ball faced, and so is a ball from which byes or leg-byes were taken.",
+            "fours": "Fours that reached the boundary. All-run fours and overthrows are excluded via Cricsheet's non_boundary flag.",
+            "sixes": "Sixes that reached the boundary, with the same non_boundary exclusion.",
+            "dots": "Balls faced off which the batter scored nothing. A ball that yielded only byes or leg-byes is still a dot for the batter.",
+            "innings": "Distinct innings, counted as match plus innings number.",
+            "matches": "Distinct matches.",
+            "dismissals": "Times out, counted from the wickets table. Retired hurt and retired not out are NOT dismissals and do not consume an average.",
+            "average": "Runs off the bat divided by dismissals. Undefined (null), not zero, for a batter who has never been dismissed.",
+            "strike_rate": "Runs per 100 balls faced.",
+            "boundary_pct": "Percentage of balls faced that went for four or six.",
+            "dot_pct": "Percentage of balls faced off which the batter scored nothing; a ball that yielded only byes is still a dot for the batter.",
+            "balls_per_boundary": "Balls faced per boundary hit."
+          },
+          "phase_source": "declared",
+          "excluded": [
+            "super-over innings"
+          ],
+          "notes": [
+            "dismissals are attributed to the batter who was out, not the striker, so run outs at the non-striker's end count against the right player"
+          ]
+        },
+        "qualification": null,
+        "attribute_coverage": null,
+        "provenance": "computed",
+        "sql_id": "4096d4ba291c",
+        "cricinfo_links": [
+          {
+            "player_id": "740742ef",
+            "name": "RG Sharma",
+            "url": "https://www.espncricinfo.com/ci/content/player/34102.html"
+          }
+        ],
+        "relaxation_hints": []
+      }
+    },
+    {
+      "type": "token",
+      "text": "RG Sharma strikes at 129.92 in the powerplay and averages 30.74 "
+    },
+    {
+      "type": "token",
+      "text": "there -- 4,703 runs off 3,620 balls in 321 innings, over the "
+    },
+    {
+      "type": "token",
+      "text": "2007-2026 stretch this data covers him. Just under half those balls "
+    },
+    {
+      "type": "token",
+      "text": "are dots (48.51%), which is the price of a boundary every 4.9 balls."
+    },
+    {
+      "type": "receipt",
+      "queries": 2,
+      "ms": 77,
+      "deliveries_scanned": 3620
+    },
+    {
+      "type": "done",
+      "stop_reason": "end_turn",
+      "usage": {
+        "input_tokens": 631,
+        "output_tokens": 74,
+        "cache_read_input_tokens": 3904,
+        "cache_write_input_tokens": 0,
+        "est_usd": null
+      },
+      "followups": [
+        "the same powerplay split by year",
+        "RG Sharma in the death overs instead",
+        "how that powerplay strike rate compares with the other openers"
+      ]
+    }
+  ]
+}
