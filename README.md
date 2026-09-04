@@ -1,5 +1,9 @@
 # cricket-chat-mcp
 
+[![npm](https://img.shields.io/npm/v/cricket-chat-mcp)](https://www.npmjs.com/package/cricket-chat-mcp)
+[![license](https://img.shields.io/npm/l/cricket-chat-mcp)](./LICENSE)
+[![node](https://img.shields.io/node/v/cricket-chat-mcp)](https://nodejs.org)
+
 An MCP server for **ball-by-ball cricket analytics**. Eight typed tools over a DuckDB
 warehouse built from [Cricsheet](https://cricsheet.org) data — and the warehouse ships
 inside the package, so there is nothing to download, ingest, host or configure.
@@ -108,9 +112,8 @@ npm run typecheck
 ```
 
 **The warehouse is not in this repo.** It's 74 MB, and git cannot forget a blob once it's in
-history, so every clone would pay for it forever. It travels in the published npm tarball and
-is attached to each GitHub release instead. To get one for local work, either take
-`data/cricket.duckdb` out of a published tarball:
+history, so every clone would pay for it forever. It travels in the published npm tarball
+instead. To get one for local work, either take `data/cricket.duckdb` out of that tarball:
 
 ```bash
 npm pack cricket-chat-mcp && tar xzf cricket-chat-mcp-*.tgz package/data/cricket.duckdb
