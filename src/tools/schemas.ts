@@ -102,6 +102,17 @@ export function aggregateSchema(input: AggregateSchemaInput): JsonSchema {
         default: DEFAULT_LIMIT,
         description: "Rows to return. Defaults to 20; 200 is the hard maximum.",
       },
+      offset: {
+        type: "integer",
+        minimum: 0,
+        default: 0,
+        description:
+          "Rows to skip before the first one returned, for reaching past the " +
+          "limit. row_count_total tells you how many qualified, so offset=20 " +
+          "with limit=20 is ranks 21-40. Use it only when the user asked for a " +
+          "position further down the list; the answer to 'who is best' is on " +
+          "the first page.",
+      },
     },
     required: [],
   };

@@ -53,6 +53,16 @@ export const FREE_TEXT_FIELDS: ReadonlySet<string> = new Set([
   "host_country",
   "competition",
   "seasons",
+  // The exclusion twins, free text for exactly the reason their positive counterparts
+  // above are: they take the same warehouse-decided strings. Listed individually rather
+  // than matched with a `_not` suffix rule, because a suffix rule would also wave through
+  // a future `bowling_type_not`, which does have an enum and should be held to it.
+  "batting_team_not",
+  "bowling_team_not",
+  "venue_canonical_not",
+  "host_country_not",
+  "competition_not",
+  "seasons_not",
 ]);
 
 /**

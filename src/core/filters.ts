@@ -40,7 +40,7 @@ export type Join = "matches" | "innings" | "bowler_attributes" | "batter_attribu
  *
  * Every member here has a branch in `predicate`, and a test proves it.
  */
-export type Op = "in" | "eq" | "gte" | "lte" | "is_true" | "is_false";
+export type Op = "in" | "not_in" | "eq" | "gte" | "lte" | "is_true" | "is_false";
 
 /**
  * How one field of a filter model becomes one SQL predicate.
@@ -77,6 +77,18 @@ export const FILTER_SPECS = {
   venue_canonical: { column: "d.venue_canonical", op: "in" },
   competition: { column: "d.competition", op: "in" },
   innings_no: { column: "d.innings_no", op: "in" },
+  // --- the same columns, excluded rather than selected ---
+  // "everywhere except his home grounds" was previously ~20 calls plus subtraction,
+  // because the only way to express a complement was to enumerate it. Each of these is
+  // null-safe -- see the `not_in` branch of `predicate`.
+  batting_team_not: { column: "d.batting_team", op: "not_in" },
+  bowling_team_not: { column: "d.bowling_team", op: "not_in" },
+  venue_canonical_not: { column: "d.venue_canonical", op: "not_in" },
+  competition_not: {
+    column: "d.competition",
+    op: "not_in",
+    note: "unlabelled matches (no competition recorded) are KEPT",
+  },
   phase: { column: "d.phase", op: "eq", note: "not defined for Test or MDM" },
   // --- ranges over the over number ---
   over_from: { column: "d.over_number", op: "gte", note: "1-based, inclusive" },
@@ -110,7 +122,9 @@ export const FILTER_SPECS = {
   },
   // --- match grain ---
   host_country: { column: "m.country", op: "in", requiresJoin: "matches" },
+  host_country_not: { column: "m.country", op: "not_in", requiresJoin: "matches" },
   seasons: { column: "m.season", op: "in", requiresJoin: "matches" },
+  seasons_not: { column: "m.season", op: "not_in", requiresJoin: "matches" },
   // --- innings grain ---
   is_chase: { column: "i.is_chase", op: "is_true", requiresJoin: "innings" },
 } as const satisfies Record<string, FilterSpec>;
@@ -277,6 +291,46 @@ export class CompiledFilters {
   }
 
   /**
+   * A copy with one field's predicate compiled against a different column.
+   *
+   * Exists for exactly one problem, and it is the batting dismissals CTE. That CTE
+   * counts rows at the *wicket* grain, where the row belongs to `w.player_out_id`, but
+   * the WHERE it inherits was compiled for the *ball* grain, where `batter_ids` means
+   * `d.batter_id` -- the striker. Those are not the same player on 4.8% of dismissals,
+   * so `batter_ids: [X] ` + `group_by: ["year"]` counted every wicket that fell while X
+   * was on strike, including his partners': more dismissals than innings, which is
+   * physically impossible and was reachable in one call.
+   *
+   * Only the clause text changes. The bindings are untouched and in the same order, so
+   * `paramsFor`'s placeholder-counting invariant still holds and the caller can keep
+   * pushing `params` exactly as before. A field that was never filtered on is a no-op.
+   */
+  retargeted(field: FilterField, column: string): CompiledFilters {
+    const from = FILTER_SPECS[field].column;
+    const where = this.where.map((clause, index) => {
+      if (this.clauseFields[index] !== field) return clause;
+      if (!clause.includes(from)) {
+        // The registry and the compiled SQL have drifted, which means this method
+        // quietly stopped retargeting anything and the caller is back to the wrong
+        // grain. That is precisely the failure this method exists to prevent, so it
+        // throws rather than returning a clause it did not rewrite.
+        throw new UnknownFilterField(
+          `cannot retarget '${field}': its predicate does not mention ${from}`,
+        );
+      }
+      return clause.replaceAll(from, column);
+    });
+    return new CompiledFilters(
+      where,
+      this.params,
+      this.joins,
+      this.attributesUsed,
+      this.attributeClauses,
+      this.clauseFields,
+    );
+  }
+
+  /**
    * A copy with one more predicate appended.
    *
    * `query_matchup` needs a `bowler_ids` predicate on a `BattingFilters` object, where
@@ -390,6 +444,17 @@ function predicate(spec: FilterSpec, value: unknown): [string, BoundValue[]] {
     case "in": {
       const values = (Array.isArray(value) ? value : [value]) as BoundValue[];
       return [`${spec.column} IN (${values.map(() => "?").join(", ")})`, values];
+    }
+    case "not_in": {
+      const values = (Array.isArray(value) ? value : [value]) as BoundValue[];
+      const list = values.map(() => "?").join(", ");
+      // `col NOT IN (...)` evaluates to NULL, not TRUE, when `col` is NULL, and a WHERE
+      // keeps only TRUE -- so the obvious spelling silently discards every row whose
+      // column is unset. 66 IT20 matches carry no `competition` at all, so
+      // `competition_not: ["Indian Premier League"]` written the obvious way would drop
+      // the unlabelled bilaterals as well as the IPL, and the count would look
+      // plausible. The IS NULL arm is the whole point of this branch.
+      return [`(${spec.column} IS NULL OR ${spec.column} NOT IN (${list}))`, values];
     }
     case "eq":
       return [`${spec.column} = ?`, [value as BoundValue]];

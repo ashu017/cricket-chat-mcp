@@ -18,7 +18,7 @@
 //     FROM joined
 //     WHERE <qualification minimums>
 //     ORDER BY ... NULLS LAST
-//     LIMIT ?
+//     LIMIT ? OFFSET ?
 //
 // `NULLS LAST` is not cosmetic. An undefined average is NULL, and in DuckDB NULL sorts
 // first descending -- so "best average" would return the batters who have never been
@@ -143,6 +143,7 @@ export interface BuildInput {
   orderBy: string;
   orderDir: string;
   limit: number;
+  offset: number;
   havingSql: string;
 }
 
@@ -209,16 +210,23 @@ export function build(grain: Grain, compiled: CompiledFilters, input: BuildInput
       ...selected.map((dim) => `${dismissalsExpr(dim)} AS ${dim.alias}`),
       `${DISMISSALS_SQL} AS dismissals`,
     ].join(",\n                   ");
+    // The same correction as `outsExpr`, applied to the WHERE instead of the GROUP BY.
+    // `batter_ids` compiled to `d.batter_id` -- the striker -- and this CTE is at the
+    // wicket grain, where the row belongs to whoever was out. Without the retarget,
+    // "Kohli's dismissals by year" counted every wicket that fell while he was on
+    // strike, which in 2017 read 11 dismissals in 10 innings.
+    const outsFilters = compiled.retargeted("batter_ids", DISMISSED_BATTER_KEY);
     ctes.push(`outs AS (
             SELECT ${outsSelect}
             FROM deliveries d
             ${WICKETS_BALL_JOIN}
             ${joinSql}
-            WHERE ${where} AND ${DISMISSAL_PREDICATE}
+            WHERE ${outsFilters.whereSql} AND ${DISMISSAL_PREDICATE}
             ${outsGroupBy}
         )`);
-    // The dismissals CTE repeats the same filters, so it repeats the bindings.
-    params.push(...compiled.params);
+    // The dismissals CTE repeats the same filters, so it repeats the bindings. The
+    // retarget rewrote column names only, so the order and the values are unchanged.
+    params.push(...outsFilters.params);
     const using = ["_grp", ...groupKeys].join(", ");
     ctes.push(`joined AS (
             SELECT b.*, coalesce(o.dismissals, 0)::INTEGER AS dismissals
@@ -270,8 +278,10 @@ export function build(grain: Grain, compiled: CompiledFilters, input: BuildInput
         ${playerJoin}
         WHERE ${input.havingSql}
         ORDER BY ${orderSql}
-        LIMIT ?`;
-  params.push(input.limit);
+        LIMIT ? OFFSET ?`;
+  // Bound in clause order, and the order is LIMIT then OFFSET -- swapping them silently
+  // returns the wrong page rather than failing, since both are plain integers.
+  params.push(input.limit, input.offset);
   return { sql, params, columns };
 }
 

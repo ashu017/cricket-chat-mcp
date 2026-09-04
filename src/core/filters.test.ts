@@ -110,6 +110,63 @@ describe("every value is a bound parameter", () => {
   });
 });
 
+describe("exclusions", () => {
+  it("keeps rows whose column is unset", () => {
+    // `col NOT IN (...)` is NULL, not TRUE, when `col` is NULL, and a WHERE keeps only
+    // TRUE -- so the obvious spelling silently discards every unlabelled row. 66 IT20
+    // matches carry no `competition` at all, and "not the World Cup" has to include them.
+    const compiled = compileFilters(
+      BattingFilters.parse({ competition_not: ["ICC Men's T20 World Cup"] }),
+    );
+    expect(compiled.whereSql).toBe(
+      "NOT d.is_super_over AND (d.competition IS NULL OR d.competition NOT IN (?))",
+    );
+    expect(compiled.params).toEqual(["ICC Men's T20 World Cup"]);
+  });
+
+  it("binds one placeholder per excluded value", () => {
+    const compiled = compileFilters(
+      BowlingFilters.parse({ batting_team_not: ["India", "Australia"] }),
+    );
+    expect(compiled.whereSql).toBe(
+      "NOT d.is_super_over AND (d.batting_team IS NULL OR d.batting_team NOT IN (?, ?))",
+    );
+    expect(compiled.params).toEqual(["India", "Australia"]);
+  });
+
+  it("re-binds correctly when a clause either side of it is dropped", () => {
+    // The null-safe spelling is the only clause with a parenthesised predicate, so a
+    // `withoutClause` that counted anything other than placeholders would go wrong here
+    // first.
+    const compiled = compileFilters(
+      MatchFilters.parse({
+        format: ["IT20"],
+        seasons_not: ["2019", "2020"],
+        host_country: ["India"],
+      }),
+    );
+    expect(compiled.params).toEqual(["IT20", "India", "2019", "2020"]);
+    const [, withoutExclusion] = compiled.withoutClause(
+      compiled.clauseFields.indexOf("seasons_not"),
+    );
+    expect(withoutExclusion).toEqual(["IT20", "India"]);
+    const [where, withoutFormat] = compiled.withoutClause(compiled.clauseFields.indexOf("format"));
+    expect(where).toBe(
+      "NOT d.is_super_over AND m.country IN (?) " +
+        "AND (m.season IS NULL OR m.season NOT IN (?, ?))",
+    );
+    expect(withoutFormat).toEqual(["India", "2019", "2020"]);
+  });
+
+  it("joins matches for a match-grain exclusion", () => {
+    // The positive and negative twins must agree about the join, or excluding by season
+    // references an alias that is not in the FROM.
+    expect(compileFilters(MatchFilters.parse({ seasons_not: ["2019"] })).joins).toEqual([
+      JOIN_SQL.matches,
+    ]);
+  });
+});
+
 describe("tri-state booleans", () => {
   it("makes both directions explicit", () => {
     // Compiling `false` to no predicate would silently widen the question from "only

@@ -196,6 +196,7 @@ async function runAggregate(
     orderBy,
     orderDir: request.order_dir,
     limit,
+    offset: request.offset,
     havingSql: having,
   });
   const result = await db.query(built.sql, built.params);
@@ -214,9 +215,38 @@ async function runAggregate(
     qualified = 0;
   }
 
+  // An empty page past the end of the list looks exactly like an over-restrictive filter
+  // -- no rows, and `count(*) OVER ()` never evaluated, so `_qualified` is absent and
+  // every total reads zero. Saying "no batter matched" when 140 did and the caller asked
+  // for rank 300 is the invisible-wrongness failure, so this asks the same question again
+  // for one row at offset 0, purely to recover the real total.
+  const overshot = rawRows.length === 0 && request.offset > 0;
+  if (overshot) {
+    const probe = aggregate.build(grain, compiled, {
+      groupBy,
+      orderBy,
+      orderDir: request.order_dir,
+      limit: 1,
+      offset: 0,
+      havingSql: having,
+    });
+    const probed = (await db.query(probe.sql, probe.params)).rows[0];
+    if (probed !== undefined) {
+      considered = Number(probed["_considered"]);
+      qualified = Number(probed["_qualified"]);
+    }
+  }
+
   const rows = publicRows(rawRows);
-  const hints =
-    rows.length === 0 ? await relaxationHints(db, compiled, ranked ? qualifier : undefined) : [];
+  const hints = overshot
+    ? [
+        `offset=${request.offset} is past the end of this list: ${qualified} row(s) ` +
+          `qualified in total, so the last reachable page starts at ` +
+          `offset=${Math.max(0, qualified - limit)}.`,
+      ]
+    : rows.length === 0
+      ? await relaxationHints(db, compiled, ranked ? qualifier : undefined)
+      : [];
 
   const playerIds = (
     grain === "batting"
@@ -302,20 +332,39 @@ function notesFor(
 // Tool specs. The description IS the prompt.
 // ---------------------------------------------------------------------------
 
+/**
+ * The `_not` fields, described once for both grains.
+ *
+ * Spelled out because the alternative is what the model actually did without them:
+ * enumerate the fifteen seasons that are not the two you mean, or the several hundred
+ * venues that are not his home ground, and subtract by hand across a dozen calls.
+ */
+const EXCLUSION_HELP =
+  "Six fields take an exclusion instead of a selection: batting_team_not, " +
+  "bowling_team_not, venue_canonical_not, host_country_not, competition_not and " +
+  "seasons_not. Each drops rows whose value is in the list and KEEPS rows whose " +
+  "value was never recorded, so competition_not still counts matches with no " +
+  "competition name. Use one to ask about everything except a short list -- " +
+  "'away from his home grounds' is venue_canonical_not, not an enumeration of every " +
+  "other venue. Passing the same value to a field and its _not twin is an error, " +
+  "not an empty answer.";
+
 const BATTING_FILTER_HELP =
   "Ball-by-ball filters. batter_ids takes Cricsheet player ids (8 hex chars) from " +
   "resolve_entity, never names. batting_team is the team the batter played FOR; " +
   "bowling_team is the opposition. faced_bowling_type/faced_bowling_arm describe " +
   "the BOWLER the batter faced, and are only known for a curated subset of " +
   "bowlers -- the response reports attribute_coverage so you can say how much of " +
-  "the data was labelled.";
+  "the data was labelled. " +
+  EXCLUSION_HELP;
 
 const BOWLING_FILTER_HELP =
   "Ball-by-ball filters. bowler_ids takes Cricsheet player ids (8 hex chars) from " +
   "resolve_entity, never names. bowling_team is the team the bowler played FOR; " +
   "batting_team is the opposition. own_bowling_type/own_bowling_arm describe the " +
   "bowler themselves and are only known for a curated subset -- the response " +
-  "reports attribute_coverage.";
+  "reports attribute_coverage. " +
+  EXCLUSION_HELP;
 
 const BATTING_EXAMPLES: Record<string, unknown>[] = [
   {
@@ -390,7 +439,12 @@ Defaults you must mention when reporting a ranking: rows are qualified at
     "the best of those who faced at least ${MIN_BALLS_FACED} balls" --
     say so. Pass min_balls_faced explicitly to change it. limit defaults to 20 and
     cannot exceed ${MAX_LIMIT}. order_by is REQUIRED when group_by is set.
-    Super-over innings are excluded unless include_super_over is true.`)}
+    Super-over innings are excluded unless include_super_over is true.
+
+offset skips rows before the page you get back, which is the only way to see past
+    ${MAX_LIMIT}: row_count_total says how many qualified, and offset=${MAX_LIMIT}
+    with limit=${MAX_LIMIT} is the second page of that many. Reach for it when the
+    user asks where someone ranks rather than who is top.`)}
 
 ${examplesBlock(BATTING_EXAMPLES)}`;
 
@@ -427,7 +481,10 @@ Defaults you must mention when reporting a ranking: rows are qualified at
     bowlers who bowled at least ${MIN_BALLS_BOWLED} balls". Pass
     min_balls_bowled to change it. limit defaults to 20, maximum ${MAX_LIMIT}.
     order_by is REQUIRED when group_by is set. Super overs excluded unless
-    include_super_over is true.`)}
+    include_super_over is true.
+
+offset skips rows before the page returned, and is the only way to reach past
+    ${MAX_LIMIT} rows; row_count_total says how many qualified in total.`)}
 
 ${examplesBlock(BOWLING_EXAMPLES)}`;
 
@@ -595,6 +652,7 @@ async function runMatchup(
     orderBy: "runs",
     orderDir: "desc",
     limit: 1,
+    offset: 0,
     havingSql: "TRUE",
   });
   const result = await db.query(built.sql, built.params);

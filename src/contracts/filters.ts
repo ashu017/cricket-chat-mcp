@@ -51,6 +51,18 @@ export const baseFilterShape = {
   // descriptions prefer date_from/date_to.
   seasons: z.array(z.string().min(1)).nonempty().optional(),
 
+  // The complements. "His away record" is a question about everything that is *not*
+  // one short list, and without these the only way to ask it was to enumerate the
+  // other side -- fifteen seasons, or every venue but two -- and then subtract by
+  // hand across a dozen calls. Each excludes rows whose value is in the list and
+  // KEEPS rows whose value is unrecorded; see the `not_in` compiler branch.
+  batting_team_not: z.array(z.string().min(1)).nonempty().optional(),
+  bowling_team_not: z.array(z.string().min(1)).nonempty().optional(),
+  venue_canonical_not: z.array(z.string().min(1)).nonempty().optional(),
+  host_country_not: z.array(z.string().min(1)).nonempty().optional(),
+  competition_not: z.array(z.string().min(1)).nonempty().optional(),
+  seasons_not: z.array(z.string().min(1)).nonempty().optional(),
+
   phase: Phase.optional(),
   over_from: z.int().min(1).optional(),
   over_to: z.int().min(1).optional(),
@@ -68,7 +80,29 @@ type BaseFilterFields = {
   over_to?: number | undefined;
   date_from?: string | undefined;
   date_to?: string | undefined;
+} & {
+  // Index signature rather than six optional keys: `EXCLUSION_PAIRS` below is what
+  // decides which fields pair up, and listing them twice invites the two lists to
+  // disagree.
+  [field: string]: unknown;
 };
+
+/**
+ * Each `_not` field and the positive field it complements.
+ *
+ * Read by {@link baseFilterChecks} so that asking for a value and excluding the same
+ * value is an error rather than an empty answer. Zero rows here would be reported with
+ * a relaxation hint naming one of the two fields, which is a true statement that walks
+ * the model straight back into the same contradiction.
+ */
+const EXCLUSION_PAIRS: readonly (readonly [string, string])[] = [
+  ["batting_team", "batting_team_not"],
+  ["bowling_team", "bowling_team_not"],
+  ["venue_canonical", "venue_canonical_not"],
+  ["host_country", "host_country_not"],
+  ["competition", "competition_not"],
+  ["seasons", "seasons_not"],
+];
 
 /**
  * The cross-field rules that hold at every grain.
@@ -105,6 +139,22 @@ export function baseFilterChecks(value: BaseFilterFields, ctx: z.RefinementCtx):
         code: "custom",
         path: ["over_from"],
         message: `over_from (${value.over_from}) is after over_to (${value.over_to})`,
+      });
+    }
+  }
+  for (const [positive, negative] of EXCLUSION_PAIRS) {
+    const included = value[positive];
+    const excluded = value[negative];
+    if (!Array.isArray(included) || !Array.isArray(excluded)) continue;
+    const both = included.filter((item) => (excluded as unknown[]).includes(item));
+    if (both.length > 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: [negative],
+        message:
+          `${both.map((item) => JSON.stringify(item)).join(", ")} appears in both ` +
+          `${positive} and ${negative}, so nothing can match. Use ${positive} alone to ` +
+          `select those values, or ${negative} alone to exclude them.`,
       });
     }
   }
@@ -203,6 +253,12 @@ export const queryRequestShape = {
   order_by: z.string().min(1).optional(),
   order_dir: SortDirection.default("desc"),
   limit: z.int().min(1).max(MAX_LIMIT).default(DEFAULT_LIMIT),
+  // Rows past the ceiling were previously unreachable: with 1,400 qualified batters and
+  // a hard `limit` of 200, ranks 201 and beyond existed in `row_count_total` and could
+  // not be fetched at all. Flipping `order_dir` reached the other end of the list and
+  // nothing reached the middle. Paging is the honest fix, and it costs no tokens per
+  // call -- unlike raising MAX_LIMIT, which is why that stays where it is.
+  offset: z.int().min(0).default(0),
 } as const;
 
 /**

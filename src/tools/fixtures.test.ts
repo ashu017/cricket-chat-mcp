@@ -204,6 +204,18 @@ const CASES: readonly Case[] = [
     name: "19_error_unknown_filter_field",
     tool: "query_batting_aggregate",
     input: { filters: { bowling_style: "spin" } },
+    // Six filter fields the Python never had. The port offers the complement of each
+    // list-valued filter, so `allowed` legitimately names six more fields than the
+    // fixture recorded. The rest of the payload -- code, field, received, did_you_mean,
+    // fix_example -- still matches exactly, which is what this case is the oracle for.
+    known: [
+      ".error.allowed: only in the port: batting_team_not",
+      ".error.allowed: only in the port: bowling_team_not",
+      ".error.allowed: only in the port: competition_not",
+      ".error.allowed: only in the port: host_country_not",
+      ".error.allowed: only in the port: seasons_not",
+      ".error.allowed: only in the port: venue_canonical_not",
+    ],
   },
   {
     name: "20_error_missing_subject_team",
@@ -294,19 +306,33 @@ function sortTeams(value: unknown, path: string): unknown {
   return value;
 }
 
-function columnDiffs(expected: string[], actual: string[], out: Set<string>): void {
+/**
+ * Arrays of names compared as sets, then as an order.
+ *
+ * Used for `.columns` and for an error's `.allowed` list, both of which are name lists
+ * where the interesting fact is which names are present. Positionally, one name added
+ * near the front shifts every entry after it and reports two dozen divergences that all
+ * say the same thing; a declared list of those is unreadable and would have to be
+ * rewritten by hand the next time a field is added. Naming the added and missing entries
+ * says it once. The order check still runs when both sides carry the same names, so a
+ * genuine reordering is not hidden.
+ */
+function nameDiffs(label: string, expected: string[], actual: string[], out: Set<string>): void {
   for (const name of expected) {
-    if (!actual.includes(name)) out.add(`.columns: only in the fixture: ${name}`);
+    if (!actual.includes(name)) out.add(`${label}: only in the fixture: ${name}`);
   }
   for (const name of actual) {
-    if (!expected.includes(name)) out.add(`.columns: only in the port: ${name}`);
+    if (!expected.includes(name)) out.add(`${label}: only in the port: ${name}`);
   }
   // Only meaningful once both carry the same names; a stale fixture that is missing a
   // column would otherwise report an order difference that says nothing.
   if (expected.length === actual.length && expected.some((name, i) => name !== actual[i])) {
-    out.add(`.columns: order differs: ${expected.join(",")} != ${actual.join(",")}`);
+    out.add(`${label}: order differs: ${expected.join(",")} != ${actual.join(",")}`);
   }
 }
+
+/** Paths whose arrays are name lists, compared by {@link nameDiffs}. */
+const NAME_LISTS: ReadonlySet<string> = new Set([".columns", ".error.allowed"]);
 
 function walk(rawExpected: unknown, rawActual: unknown, path: string, out: Set<string>): void {
   // A hash of the generated SQL text. The TypeScript generator emits semantically
@@ -318,8 +344,8 @@ function walk(rawExpected: unknown, rawActual: unknown, path: string, out: Set<s
   const actual = sortTeams(rawActual, path);
 
   if (Array.isArray(expected) && Array.isArray(actual)) {
-    if (path === ".columns") {
-      columnDiffs(expected.map(String), actual.map(String), out);
+    if (NAME_LISTS.has(path)) {
+      nameDiffs(path, expected.map(String), actual.map(String), out);
       return;
     }
     if (expected.length !== actual.length) {

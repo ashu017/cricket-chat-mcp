@@ -129,6 +129,61 @@ describe.skipIf(!warehouseAvailable())(
       }
     });
 
+    it("keeps a filtered batter's dismissals his own at a non-player grain", async () => {
+      // The regression this pins, measured: `batter_ids` compiles to `d.batter_id` -- the
+      // striker -- and the dismissals CTE is at the wicket grain. Grouped by `player` the
+      // GROUP BY corrected for it, so the bug only appeared once the caller asked for any
+      // other dimension: "Kohli's dismissals by year" counted every wicket that fell while
+      // he was on strike, and 2017 read 11 dismissals in 10 innings. A dismissal count
+      // above the innings count is impossible, and that impossibility is the cheap check.
+      const KOHLI = "ba607b88";
+      const IPL = "Indian Premier League";
+      const filters = { batter_ids: [KOHLI], competition: [IPL] };
+      const shared = { min_balls_faced: 0, min_innings: 0 } as const;
+
+      const byYear = await call("query_batting_aggregate", {
+        filters,
+        group_by: ["year"],
+        order_by: "dismissals",
+        limit: 200,
+        ...shared,
+      });
+      const rows = byYear.response?.rows ?? [];
+      // He has played every IPL season in the data; a handful of rows would mean the
+      // filter, not the grain, is what this test is measuring.
+      expect(rows.length).toBeGreaterThan(10);
+      let summed = 0;
+      for (const row of rows) {
+        const year = String(row["year"]);
+        expect(
+          Number(row["dismissals"]),
+          `${year} has more dismissals than innings`,
+        ).toBeLessThanOrEqual(Number(row["innings"]));
+        summed += Number(row["dismissals"]);
+      }
+
+      // Every grain has to agree with the wicket table, which is the only place that knows
+      // who was actually out.
+      const db = await connect();
+      try {
+        const direct = await db.query(
+          `SELECT count(*)::INTEGER AS n
+         FROM deliveries d
+         ${WICKETS_BALL_JOIN}
+         WHERE w.player_out_id = ? AND d.competition = ?
+           AND NOT d.is_super_over AND ${DISMISSAL_PREDICATE}`,
+          [KOHLI, IPL],
+        );
+        expect(summed).toBe(Number(direct.rows[0]?.["n"]));
+      } finally {
+        db.close();
+      }
+
+      // ...and so does the ungrouped career total, which took the same retargeted path.
+      const total = await call("query_batting_aggregate", { filters, ...shared });
+      expect(Number(total.response?.rows[0]?.["dismissals"])).toBe(summed);
+    });
+
     it("a meaningful share of dismissals are of the non-striker", async () => {
       // If this ever reads zero, the `player_out_id` key has stopped being loaded and the
       // other two assertions above would pass while meaning nothing.

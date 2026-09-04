@@ -331,6 +331,10 @@ async function matches(db: Db, rawArgs: Readonly<Record<string, unknown>>): Prom
       },
     );
   }
+  const offset = Object.hasOwn(args, "offset") ? args["offset"] : 0;
+  if (typeof offset !== "number" || !Number.isInteger(offset) || offset < 0) {
+    throw errors.badEnum(tool, "offset", offset, ["a non-negative integer"]);
+  }
   const orderDir = (args["order_dir"] ?? "desc") === "asc" ? "ASC" : "DESC";
 
   const rawFilters = args["filters"] ?? {};
@@ -380,11 +384,22 @@ async function matches(db: Db, rawArgs: Readonly<Record<string, unknown>>): Prom
         LEFT JOIN teams t ON t.match_id = m.match_id
         ${matchWhere.length > 0 ? `WHERE ${matchWhere.join(" AND ")}` : ""}
         ORDER BY m.start_date ${orderDir}, m.match_id ${orderDir}
-        LIMIT ?
+        LIMIT ? OFFSET ?
     `;
-  const result = await db.query(sql, [...compiled.params, ...matchParams, limit]);
+  const bound = [...compiled.params, ...matchParams];
+  const result = await db.query(sql, [...bound, limit, offset]);
   const head = result.rows[0];
-  const total = head !== undefined ? Number(head["_total"]) : 0;
+  let total = head !== undefined ? Number(head["_total"]) : 0;
+
+  // `count(*) OVER ()` is only evaluated on rows that come back, so a page past the end
+  // of the list reports zero matches -- indistinguishable from a filter that excluded
+  // everything. Ask again for one row from the top, purely to recover the real total.
+  const overshot = result.rows.length === 0 && offset > 0;
+  if (overshot) {
+    const probed = (await db.query(sql, [...bound, 1, 0])).rows[0];
+    if (probed !== undefined) total = Number(probed["_total"]);
+  }
+
   const cleaned = cleanRows(
     result.rows.map((row) =>
       Object.fromEntries(Object.entries(row).filter(([key]) => key !== "_total")),
@@ -393,7 +408,12 @@ async function matches(db: Db, rawArgs: Readonly<Record<string, unknown>>): Prom
   const columns = result.columns.filter((name) => name !== "_total");
 
   const hints: string[] = [];
-  if (cleaned.length === 0) {
+  if (overshot) {
+    hints.push(
+      `offset=${offset} is past the end of this list: ${total} match(es) matched in ` +
+        `total, so the last reachable page starts at offset=${Math.max(0, total - limit)}.`,
+    );
+  } else if (cleaned.length === 0) {
     if (subject !== undefined && subject !== "") {
       const known = await db.query(
         "SELECT DISTINCT batting_team FROM deliveries WHERE batting_team IS NOT NULL",
@@ -488,7 +508,9 @@ format values: Test, ODI, T20, IT20, MDM, ODM. gender values: male, female. Team
     near-miss spelling silently matches nothing.
 
 limit defaults to 20, maximum ${MAX_LIMIT}. Results are newest first unless
-    order_dir="asc".
+    order_dir="asc". offset skips matches before the page you get back, and is the
+    only way to see past ${MAX_LIMIT}: row_count_total says how many matched, so
+    offset=${MAX_LIMIT} with limit=${MAX_LIMIT} is the second page.
 
 One caveat worth stating to a user: filters are applied to ball-by-ball data, so a
     match abandoned without a ball bowled is not in this list at all.`)}
@@ -519,6 +541,15 @@ export const MATCHES_TOOL: ToolSpec = {
         minimum: 1,
         maximum: MAX_LIMIT,
         default: 20,
+      },
+      offset: {
+        type: "integer",
+        minimum: 0,
+        default: 0,
+        description:
+          "Matches to skip before the first one returned, for reaching past " +
+          "the limit. row_count_total tells you how many matched, so offset=20 " +
+          "with limit=20 is the second page.",
       },
     },
     required: [],
