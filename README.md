@@ -8,6 +8,27 @@ An MCP server for **ball-by-ball cricket analytics**. Eight typed tools over a D
 warehouse built from [Cricsheet](https://cricsheet.org) data — and the warehouse ships
 inside the package, so there is nothing to download, ingest, host or configure.
 
+## Install
+
+Requires **Node 22 or newer**. Nothing else — no API key, no database to set up, no service to
+run. The first launch downloads ~18 MB and caches it; after that startup is instant.
+
+### Claude Code
+
+```bash
+claude mcp add cricket -- npx -y cricket-chat-mcp
+```
+
+That registers it for the current project only. Add `--scope user` to make it available in every
+project, or `--scope project` to write a `.mcp.json` your teammates get when they clone the repo.
+
+Check it came up with `claude mcp list`, then ask something — *"which bowlers concede fewest
+boundaries in T20 death overs since 2020?"*
+
+### Claude Desktop
+
+Open **Settings → Developer → Edit Config**, which opens `claude_desktop_config.json`, and add:
+
 ```json
 {
   "mcpServers": {
@@ -16,7 +37,41 @@ inside the package, so there is nothing to download, ingest, host or configure.
 }
 ```
 
-Drop that into your MCP client's config and ask a question.
+If you'd rather edit the file directly, it lives at
+`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS,
+`%APPDATA%\Claude\claude_desktop_config.json` on Windows, and
+`~/.config/Claude/claude_desktop_config.json` on Linux. Merge the `cricket` entry into any
+`mcpServers` block already there rather than replacing it.
+
+**Restart Claude Desktop** — it only reads that file at startup. The tools then appear under the
+connector icon in the message box.
+
+### Any other MCP client
+
+It's a standard stdio server, so the same command works anywhere: run
+`npx -y cricket-chat-mcp` and speak JSON-RPC over stdin/stdout. `npx cricket-chat-mcp --help`
+prints the options.
+
+### If it doesn't start
+
+Almost always the Node version. Claude Desktop launches servers with its own environment, which
+may not be the shell `PATH` where your Node 22 lives — so `node --version` in a terminal can say
+22 while the server still fails. Point the config at an absolute path to prove it:
+
+```json
+{
+  "mcpServers": {
+    "cricket": {
+      "command": "/absolute/path/to/node",
+      "args": ["/absolute/path/to/npx", "-y", "cricket-chat-mcp"]
+    }
+  }
+}
+```
+
+Claude Desktop's MCP logs are in `~/Library/Logs/Claude/` (macOS) or `%APPDATA%\Claude\logs\`
+(Windows); Claude Code shows them with `claude mcp list` and `/mcp`. Anything this server wants
+to tell you goes to stderr and lands in those logs — stdout carries only protocol traffic.
 
 ## Why this exists
 
