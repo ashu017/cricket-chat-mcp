@@ -30,6 +30,8 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import {
   CallToolRequestSchema,
   type CallToolResult,
+  GetPromptRequestSchema,
+  ListPromptsRequestSchema,
   ListToolsRequestSchema,
   type Tool,
 } from "@modelcontextprotocol/sdk/types.js";
@@ -39,6 +41,7 @@ import { fromPackageRoot } from "../core/warehouse.js";
 import type { ToolSpec } from "../tools/base.js";
 import { call, specs } from "../tools/registry.js";
 import { INSTRUCTIONS } from "./instructions.js";
+import { getPrompt, promptDefinitions } from "./prompts.js";
 
 export const SERVER_NAME = "cricket-chat-mcp";
 
@@ -108,7 +111,10 @@ export interface CricketServer {
 export function createServer(): CricketServer {
   const server = new Server(
     { name: SERVER_NAME, version: packageVersion() },
-    { capabilities: { tools: {} }, instructions: INSTRUCTIONS },
+    // `prompts` is declared as well as `tools` because a capability that is not declared is
+    // one the host will never ask about -- `prompts/list` is simply not sent, and the handler
+    // below would be dead code.
+    { capabilities: { tools: {}, prompts: {} }, instructions: INSTRUCTIONS },
   );
 
   // Consecutive failures per tool, so `attempt` and `retryable` mean something here.
@@ -127,6 +133,16 @@ export function createServer(): CricketServer {
   server.setRequestHandler(ListToolsRequestSchema, () => ({
     tools: specs().map(toolDefinition),
   }));
+
+  // Prompts, unlike tools, are chosen by the *user* -- they arrive in Claude Code as
+  // `/mcp__cricket__<name>` and in Claude Desktop's prompt picker. Neither handler touches the
+  // warehouse, so neither is tracked by `idle()`: a `prompts/get` is a string substitution and
+  // has returned long before a shutdown could race it.
+  server.setRequestHandler(ListPromptsRequestSchema, () => ({ prompts: promptDefinitions() }));
+
+  server.setRequestHandler(GetPromptRequestSchema, (request) =>
+    getPrompt(request.params.name, request.params.arguments ?? {}),
+  );
 
   const inFlight = new Set<Promise<void>>();
 

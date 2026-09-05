@@ -131,6 +131,20 @@ one turn instead of surfacing a red box to you. After three consecutive failures
 same tool the payload flips to `retryable: false` and the model is told to explain the
 limitation rather than keep guessing.
 
+## The four prompts
+
+Tools are chosen by the model; **prompts are chosen by you**. Each one expands to a
+procedure the model would otherwise have to invent — a sequence of calls with a judgement in
+the middle. In Claude Code they appear as slash commands, `/mcp__cricket__home_away_split`;
+in Claude Desktop, in the prompt picker.
+
+| Prompt | Arguments | Why it exists |
+|---|---|---|
+| `home_away_split` | `player`, `role` | Groups by `home_away` and then reads the three buckets as three answers. Folding `neutral` into `away` is the most common way this figure goes wrong. |
+| `matchup_drilldown` | `batter`, `bowler`, `context` | Two resolves and a matchup, then a decision about whether the sample supports a claim at all. Under ~60 balls it gives raw counts instead of an average. |
+| `phase_leaderboard` | `phase`, `role`, `metric`, `since` | The shape no form-driven site can ask, and the one most likely to be run unqualified. Carries the minimum and the phase definition into the answer. |
+| `career_with_boundary` | `player`, `format` | The coverage cliff: the cited reference total and the computed portion, side by side and never arithmetic on each other. |
+
 ## What it will not do
 
 - **No live scores, no fixtures.** Cricbuzz owns live; this is historical analysis, and the
