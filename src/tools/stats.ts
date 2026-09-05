@@ -344,10 +344,31 @@ const EXCLUSION_HELP =
   "bowling_team_not, venue_canonical_not, host_country_not, competition_not and " +
   "seasons_not. Each drops rows whose value is in the list and KEEPS rows whose " +
   "value was never recorded, so competition_not still counts matches with no " +
-  "competition name. Use one to ask about everything except a short list -- " +
-  "'away from his home grounds' is venue_canonical_not, not an enumeration of every " +
-  "other venue. Passing the same value to a field and its _not twin is an error, " +
-  "not an empty answer.";
+  "competition name. Use one to ask about everything except a short list, rather than " +
+  "enumerating the several hundred values on the other side of it. Passing the same " +
+  "value to a field and its _not twin is an error, not an empty answer.";
+
+/**
+ * The curated home/away filters, described once for both grains.
+ *
+ * The IPL-only scope is stated first because it is the part that makes an answer wrong
+ * if the model misses it: outside that competition every delivery is `unknown`, so a
+ * global "away average" asked through this field returns nothing at all rather than a
+ * quietly wrong number. `neutral` gets its own sentence for the same reason -- a season
+ * played in the UAE is not an away season, and folding it into `away` would silently
+ * change what several IPL careers look like.
+ */
+const HOME_AWAY_HELP =
+  "batting_home_away and bowling_home_away say whose ground it was, curated for the " +
+  "IPL and ONLY the IPL -- every delivery in every other competition is 'unknown', so " +
+  "do not reach for these to answer a general away-record question. Values: home, " +
+  "away, neutral, unknown. batting_home_away is asked of the batting side and " +
+  "bowling_home_away of the fielding side, so on either grain you can pin one side or " +
+  "both. 'neutral' is a ground nobody owned that season -- the 2009 South Africa and " +
+  "2020/21 UAE seasons, relocated fixtures, a knockout at a third team's ground -- and " +
+  "it is NOT 'away'; report it separately or the away figure is not an away figure. " +
+  "group_by home_away splits a single query the same way, on whichever side the grain " +
+  "is, and is how to compare home against away in one call instead of two.";
 
 const BATTING_FILTER_HELP =
   "Ball-by-ball filters. batter_ids takes Cricsheet player ids (8 hex chars) from " +
@@ -356,7 +377,9 @@ const BATTING_FILTER_HELP =
   "the BOWLER the batter faced, and are only known for a curated subset of " +
   "bowlers -- the response reports attribute_coverage so you can say how much of " +
   "the data was labelled. " +
-  EXCLUSION_HELP;
+  EXCLUSION_HELP +
+  " " +
+  HOME_AWAY_HELP;
 
 const BOWLING_FILTER_HELP =
   "Ball-by-ball filters. bowler_ids takes Cricsheet player ids (8 hex chars) from " +
@@ -364,7 +387,9 @@ const BOWLING_FILTER_HELP =
   "batting_team is the opposition. own_bowling_type/own_bowling_arm describe the " +
   "bowler themselves and are only known for a curated subset -- the response " +
   "reports attribute_coverage. " +
-  EXCLUSION_HELP;
+  EXCLUSION_HELP +
+  " " +
+  HOME_AWAY_HELP;
 
 const BATTING_EXAMPLES: Record<string, unknown>[] = [
   {
@@ -430,6 +455,12 @@ gender values: male, female.
 faced_bowling_type values: pace, spin, unknown. faced_bowling_arm values: left,
     right, unknown. Both describe the bowler being faced and are known only for a
     curated subset, so the response reports attribute_coverage -- quote it.
+batting_home_away / bowling_home_away values: home, away, neutral, unknown. Curated
+    for the IPL only; everything else is unknown, so do not use these to answer a
+    question about T20 cricket generally. neutral means a ground nobody owned that
+    season and is not away -- say which of the three a figure covers. group_by
+    home_away compares them in one call, and is the right shape for "how does he bat
+    away from home" in the IPL.
 order_dir values: asc, desc. desc is the default and is what "best" means for runs
     and strike_rate; use asc for a metric that is better when lower.
 
@@ -469,6 +500,11 @@ format values: Test, ODI, T20, IT20, MDM, ODM. T20 is domestic/franchise, IT20 i
     international -- pass both if the user means T20 cricket generally.
 phase values: powerplay, middle, death. Not defined for Test/MDM.
 gender values: male, female.
+batting_home_away / bowling_home_away values: home, away, neutral, unknown. Curated
+    for the IPL only -- everything else is unknown. bowling_home_away is the bowler's
+    own side here; batting_home_away asks it of the batters he was up against.
+    neutral is a ground nobody owned that season and is not away. group_by home_away
+    splits a bowler's record by his own side's ground in one call.
 
 Definitions that matter: wickets counts bowler-credited dismissals only (run outs
     excluded, as on a scorecard). balls_bowled excludes wides AND no-balls, which is

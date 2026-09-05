@@ -4,6 +4,7 @@ import {
   BowlingType,
   FormatInput,
   Gender,
+  HomeAway,
   IsoDate,
   MatchResult,
   Phase,
@@ -50,6 +51,21 @@ export const baseFilterShape = {
   // Ambiguous by nature: both "2019/20" and "2019" occur in the source. Tool
   // descriptions prefer date_from/date_to.
   seasons: z.array(z.string().min(1)).nonempty().optional(),
+
+  // Whose ground it was. Two fields rather than one, for the same reason
+  // `batting_team`/`bowling_team` are two: home/away is asked OF a side, and a single
+  // `home_away` would have to guess which side the question is about. On a batting
+  // query `batting_home_away: "away"` is "the batter's team was away"; the bowling
+  // twin asks it of the fielding side, so a batting query can also ask "at home to a
+  // touring side" without naming either team.
+  //
+  // IPL only, and `unknown` everywhere else -- `match_home_away` is curated from the
+  // venue-ownership map in `scripts/build-home-away.mjs` and no other competition has
+  // one. `neutral` is a ground nobody owned that season, which is a different answer
+  // from `away`; the two must not be conflated, and that distinction is why this is a
+  // curated table rather than a country comparison.
+  batting_home_away: HomeAway.optional(),
+  bowling_home_away: HomeAway.optional(),
 
   // The complements. "His away record" is a question about everything that is *not*
   // one short list, and without these the only way to ask it was to enumerate the

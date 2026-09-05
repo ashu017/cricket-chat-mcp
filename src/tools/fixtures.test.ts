@@ -32,6 +32,22 @@
 //      count out of six. The oracle was fixed, the two affected fixtures were
 //      re-recorded, and the port already agreed with the corrected value.
 //
+// One case is a fixture of the *data* as well as of the code, and it is worth knowing
+// which. `05_batting_one_player_vs_spin` filters on `faced_bowling_type`, so its numbers
+// move whenever `player_attributes` gains a label -- and it read 663 balls faced against
+// spin until `scripts/label-bowlers.mjs` attributed 185 more IPL bowlers, after which the
+// same query over the same deliveries legitimately sees 696. Those 14 numbers were edited
+// rather than declared as known divergences, because a case that stops guarding its own
+// arithmetic guards nothing.
+//
+// The edit is safe to make from the port only because the port was first shown to
+// reproduce the fixture exactly: replaying this case with `CRICKET_DB` pointed at the
+// pre-write warehouse passes byte-for-byte, which isolates the change to the labels and
+// leaves the Python-equivalence claim resting on the recorded numbers, not on the new
+// ones. The new figures also reconcile internally -- 907/27 = 33.59, 907/696 = 130.32,
+// (53+44)/696 = 13.94% -- and `dismissals` did not move, which is what a widened
+// population with no new dismissal to a spinner should look like.
+//
 // Skipped, not failed, when the warehouse is absent: it is gitignored, so a fresh
 // clone has no copy of it and `npm test` must still pass.
 
@@ -204,12 +220,15 @@ const CASES: readonly Case[] = [
     name: "19_error_unknown_filter_field",
     tool: "query_batting_aggregate",
     input: { filters: { bowling_style: "spin" } },
-    // Six filter fields the Python never had. The port offers the complement of each
-    // list-valued filter, so `allowed` legitimately names six more fields than the
-    // fixture recorded. The rest of the payload -- code, field, received, did_you_mean,
-    // fix_example -- still matches exactly, which is what this case is the oracle for.
+    // Eight filter fields the Python never had: the complement of each list-valued
+    // filter, plus the two curated home/away fields. So `allowed` legitimately names
+    // eight more fields than the fixture recorded. The rest of the payload -- code,
+    // field, received, did_you_mean, fix_example -- still matches exactly, which is what
+    // this case is the oracle for.
     known: [
+      ".error.allowed: only in the port: batting_home_away",
       ".error.allowed: only in the port: batting_team_not",
+      ".error.allowed: only in the port: bowling_home_away",
       ".error.allowed: only in the port: bowling_team_not",
       ".error.allowed: only in the port: competition_not",
       ".error.allowed: only in the port: host_country_not",

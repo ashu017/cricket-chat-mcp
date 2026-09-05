@@ -100,6 +100,17 @@ export const BATTING_DIMS = {
     expr: "coalesce(ba_bowl.bowling_type, 'unknown')",
     requiresJoin: "bowler_attributes",
   },
+  // Whose ground it was, asked of the BATTING side -- the grain of this dim map. Its
+  // bowling twin resolves the same question about the fielding side, which is exactly how
+  // `team`/`opposition` already split.
+  home_away: {
+    alias: "home_away",
+    expr: "coalesce(ha_bat.home_away, 'unknown')",
+    requiresJoin: "batting_home_away",
+    note:
+      "IPL only; every other competition is 'unknown'. 'neutral' is a ground nobody " +
+      "owned that season, which is not the same as 'away'",
+  },
 } as const satisfies Record<string, GroupDim>;
 
 export const BOWLING_DIMS = {
@@ -111,6 +122,15 @@ export const BOWLING_DIMS = {
     alias: "bowling_type",
     expr: "coalesce(ba_bowl.bowling_type, 'unknown')",
     requiresJoin: "bowler_attributes",
+  },
+  // The bowling twin: whose ground it was for the FIELDING side. Same name, its own grain.
+  home_away: {
+    alias: "home_away",
+    expr: "coalesce(ha_bowl.home_away, 'unknown')",
+    requiresJoin: "bowling_home_away",
+    note:
+      "IPL only; every other competition is 'unknown'. 'neutral' is a ground nobody " +
+      "owned that season, which is not the same as 'away'",
   },
 } as const satisfies Record<string, GroupDim>;
 

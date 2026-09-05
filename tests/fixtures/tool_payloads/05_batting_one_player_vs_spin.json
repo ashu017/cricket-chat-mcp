@@ -16,25 +16,25 @@
   ],
   "rows": [
     {
-      "runs": 860,
-      "balls_faced": 663,
-      "fours": 52,
-      "sixes": 40,
-      "dots": 227,
-      "innings": 80,
-      "matches": 80,
+      "runs": 907,
+      "balls_faced": 696,
+      "fours": 53,
+      "sixes": 44,
+      "dots": 238,
+      "innings": 84,
+      "matches": 84,
       "dismissals": 27,
-      "average": 31.85,
-      "strike_rate": 129.71,
-      "boundary_pct": 13.88,
-      "dot_pct": 34.24,
-      "balls_per_boundary": 7.21
+      "average": 33.59,
+      "strike_rate": 130.32,
+      "boundary_pct": 13.94,
+      "dot_pct": 34.2,
+      "balls_per_boundary": 7.18
     }
   ],
   "row_count_total": 1,
   "truncated": false,
   "coverage": {
-    "matches_in_scope": 80,
+    "matches_in_scope": 84,
     "earliest_date": "2012-02-23",
     "latest_date": "2026-07-11",
     "dataset_first_date": "2005-02-17",
@@ -67,7 +67,7 @@
   "qualification": null,
   "attribute_coverage": {
     "attribute": "bowling_type",
-    "known_deliveries": 1784,
+    "known_deliveries": 2018,
     "total_deliveries": 2881
   },
   "provenance": "computed",

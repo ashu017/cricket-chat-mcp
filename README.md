@@ -136,9 +136,16 @@ limitation rather than keep guessing.
 - **No live scores, no fixtures.** Cricbuzz owns live; this is historical analysis, and the
   server says so rather than improvising.
 - **No pace/spin or handedness beyond a curated set.** Cricsheet has no such column, so
-  bowling type is a hand-reviewed file covering the ~200 highest-volume bowlers. Any
-  attribute-filtered answer reports its `attribute_coverage`, so a 90%-unknown result
-  cannot pass as complete.
+  bowling type is hand-reviewed: 385 bowlers, seeded from the highest-volume names globally
+  and then extended down the IPL's own volume ranking, which is where the gaps actually
+  were. That reaches 93% of IPL deliveries and rather less elsewhere. Any attribute-filtered
+  answer reports its `attribute_coverage`, so a 90%-unknown result cannot pass as complete.
+- **No home/away outside the IPL.** Cricsheet records a venue, never whose ground it was,
+  so `batting_home_away` / `bowling_home_away` and `group_by home_away` read off a curated
+  team × season × venue table that covers the IPL and nothing else; every other delivery is
+  `unknown` rather than quietly excluded. `neutral` — a ground nobody owned that season, so
+  the 2009 South Africa and 2020/21 UAE seasons, relocated fixtures, a knockout at a third
+  team's ground — is its own bucket and is not folded into `away`.
 - **No raw SQL.** Tools are typed and parameterised; `sql_id` in the response is a digest
   for correlating two calls, not a query you can edit.
 

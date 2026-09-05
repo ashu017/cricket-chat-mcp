@@ -8,6 +8,10 @@ dist/
 # tarball and take `data/cricket.duckdb` out of it.
 data/*.duckdb
 data/*.duckdb.wal
+# `scripts/label-bowlers.mjs` writes the warehouse in place and the ingest that built it
+# lives in another repo, so the pre-write copy is the only way back. It is a warehouse too:
+# 74 MB, gitignored for the same reason, and it must not reach the npm tarball either.
+data/*.duckdb.bak
 
 .env
 .DS_Store

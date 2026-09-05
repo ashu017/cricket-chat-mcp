@@ -201,6 +201,41 @@ describe("joins", () => {
   });
 });
 
+describe("curated home/away", () => {
+  it("compiles through a coalesce so 'unknown' is askable", () => {
+    // Without the coalesce, `unknown` would match nothing while every other value
+    // silently dropped the deliveries the curated table does not cover.
+    const compiled = compileFilters(BattingFilters.parse({ batting_home_away: "unknown" }));
+    expect(compiled.where).toEqual([
+      "NOT d.is_super_over",
+      "coalesce(ha_bat.home_away, 'unknown') = ?",
+    ]);
+    expect(compiled.params).toEqual(["unknown"]);
+  });
+
+  it("joins each side to its own alias, and LEFT so uncovered balls survive", () => {
+    const compiled = compileFilters(
+      BattingFilters.parse({ batting_home_away: "away", bowling_home_away: "home" }),
+    );
+    expect(compiled.joins).toEqual([JOIN_SQL.batting_home_away, JOIN_SQL.bowling_home_away]);
+    for (const join of compiled.joins) expect(join.startsWith("LEFT JOIN")).toBe(true);
+    // One row per (match, team) in `match_home_away`, so joining on both columns can
+    // match at most once. A join that could match twice would double every run and
+    // wicket in the result and the total would still look plausible.
+    expect(compiled.joins[0]).toContain("ha_bat.team = d.batting_team");
+    expect(compiled.joins[1]).toContain("ha_bowl.team = d.bowling_team");
+  });
+
+  it("is not a coverage-reporting attribute", () => {
+    // Unlike bowling_type this is complete for the IPL by construction --
+    // scripts/build-home-away.mjs refuses to write with any pair unresolved -- so an
+    // attribute_coverage block would read 100% inside the IPL and 0% outside it. Noise.
+    const compiled = compileFilters(BowlingFilters.parse({ bowling_home_away: "away" }));
+    expect(compiled.attributesUsed).toEqual([]);
+    expect(compiled.attributeClauses).toEqual([]);
+  });
+});
+
 describe("curated attributes", () => {
   it("records which attribute was filtered on so coverage can be reported", () => {
     const compiled = compileFilters(BattingFilters.parse({ faced_bowling_type: "spin" }));

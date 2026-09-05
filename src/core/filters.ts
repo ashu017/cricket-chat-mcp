@@ -31,7 +31,13 @@ import {
  * column already denormalised onto `deliveries`, which is the common case and the
  * reason the ingest denormalises at all.
  */
-export type Join = "matches" | "innings" | "bowler_attributes" | "batter_attributes";
+export type Join =
+  | "matches"
+  | "innings"
+  | "bowler_attributes"
+  | "batter_attributes"
+  | "batting_home_away"
+  | "bowling_home_away";
 
 /**
  * Deliberately short, and deliberately without a `between` member: an over range is
@@ -45,8 +51,9 @@ export type Op = "in" | "not_in" | "eq" | "gte" | "lte" | "is_true" | "is_false"
 /**
  * How one field of a filter model becomes one SQL predicate.
  *
- * `column` is a fully-qualified column reference and is the *only* part of the
- * generated SQL that is not a bound parameter. It is a literal in this file.
+ * `column` is a fully-qualified column reference -- or, where a NULL has to read as a
+ * value rather than as no answer, a `coalesce` over one. It is the *only* part of the
+ * generated SQL that is not a bound parameter, and it is a literal in this file.
  */
 export interface FilterSpec {
   column: string;
@@ -125,6 +132,23 @@ export const FILTER_SPECS = {
   host_country_not: { column: "m.country", op: "not_in", requiresJoin: "matches" },
   seasons: { column: "m.season", op: "in", requiresJoin: "matches" },
   seasons_not: { column: "m.season", op: "not_in", requiresJoin: "matches" },
+  // --- curated home/away: IPL only, and 'unknown' is a real answer ---
+  // `coalesce`, not a bare column, because the honest reading of a delivery the curated
+  // table does not cover is "we do not know", and that has to be *askable*. Without it
+  // `home_away: "unknown"` would match nothing at all while every other value silently
+  // dropped the uncovered rows, which is two wrong answers from one omission.
+  batting_home_away: {
+    column: "coalesce(ha_bat.home_away, 'unknown')",
+    op: "eq",
+    requiresJoin: "batting_home_away",
+    note: "IPL only; 'unknown' elsewhere. 'neutral' is a ground nobody owned, not 'away'",
+  },
+  bowling_home_away: {
+    column: "coalesce(ha_bowl.home_away, 'unknown')",
+    op: "eq",
+    requiresJoin: "bowling_home_away",
+    note: "IPL only; 'unknown' elsewhere. 'neutral' is a ground nobody owned, not 'away'",
+  },
   // --- innings grain ---
   is_chase: { column: "i.is_chase", op: "is_true", requiresJoin: "innings" },
 } as const satisfies Record<string, FilterSpec>;
@@ -140,6 +164,20 @@ export const JOIN_SQL = {
   innings: "JOIN innings i ON i.match_id = d.match_id AND i.innings_no = d.innings_no",
   bowler_attributes: "LEFT JOIN player_attributes ba_bowl ON ba_bowl.player_id = d.bowler_id",
   batter_attributes: "LEFT JOIN player_attributes ba_bat ON ba_bat.player_id = d.batter_id",
+  // `match_home_away` is one row per (match, team), so joining on both columns matches
+  // at most one row per delivery. That is the property that matters: a join to this
+  // table which could match twice would double every run and wicket in the result, and
+  // the total would still look like a plausible number.
+  //
+  // LEFT, so a delivery from a competition the table does not cover survives with a
+  // NULL that the registry's `coalesce` reads as 'unknown'. An inner join would drop
+  // every non-IPL ball the moment anything asked for home_away, silently.
+  batting_home_away:
+    "LEFT JOIN match_home_away ha_bat ON ha_bat.match_id = d.match_id " +
+    "AND ha_bat.team = d.batting_team",
+  bowling_home_away:
+    "LEFT JOIN match_home_away ha_bowl ON ha_bowl.match_id = d.match_id " +
+    "AND ha_bowl.team = d.bowling_team",
 } as const satisfies Record<Join, string>;
 
 /**

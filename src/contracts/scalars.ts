@@ -50,6 +50,16 @@ export type BowlingType = z.infer<typeof BowlingType>;
 export const BowlingArm = z.enum(["right", "left", "unknown"]);
 export type BowlingArm = z.infer<typeof BowlingArm>;
 
+/**
+ * Whose ground a team was playing on, for the one competition where it is curated.
+ *
+ * `unknown` is not a hedge, it is the honest answer for every delivery outside the IPL:
+ * `match_home_away` covers that competition only, and a ground nobody owns is `neutral`,
+ * which is a different fact from "we have not worked out who owns it".
+ */
+export const HomeAway = z.enum(["home", "away", "neutral", "unknown"]);
+export type HomeAway = z.infer<typeof HomeAway>;
+
 export const MatchResult = z.enum(["win", "loss", "draw", "tie", "no_result"]);
 export type MatchResult = z.infer<typeof MatchResult>;
 
